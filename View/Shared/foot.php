@@ -1,6 +1,5 @@
         <?php if(isset($this->sidebar)){?>
                     </div>
-                </div>             
         <?php } ?>
     </div>      
 </div>      

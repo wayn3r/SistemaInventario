@@ -50,7 +50,7 @@ ob_start();
         }
         $nots.=<<<input
             <div class="row m-1 p-1 d-flex justify-content-between border-top {$bg_color} " >
-                <div class="col-11">
+                <div class="col-10">
                     <p>{$not->mensaje}</p> 
                     <span>{$not->infoAdicional}</span> 
                 </div>

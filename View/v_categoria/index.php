@@ -1,13 +1,14 @@
 
-    <div class="jumbotron ml-2 mr-2 overflow-auto">
-        <h1 class="display-4">Categoria</h1>
+<div class="jumbotron mr-2 ml-2 overflow-auto">
+    <h1 class="display-4">Categoria</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="home.php">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Categoria</li>
         </ol>
     </nav>
-    </div>
-    <main class="w-100">
+</div>
+<main class="w-100">
       <div class="container">
           <ul class="list-group">
           

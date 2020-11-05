@@ -18,15 +18,15 @@ class NotificacionController extends Controller{
 
     public function Edit(array $entidad)
     {
-        
-        if($entidad['idNotificacion'] == 'all'){
-           $this->entity->EditFields('visto','1','0');
-        }
-        else{
-            $this->entity->setAttribute($entidad);
-            $this->entity->visto = 1;
-            $this->entity->Edit($this->entity);
-        }
+        if(isset($entidad['idNotificacion']))
+            if($entidad['idNotificacion'] == 'all'){
+            $this->entity->EditFields('visto','1','0');
+            }
+            else{
+                $this->entity->idNotificacion = $entidad['idNotificacion'];
+                $this->entity->visto = 1;
+                $this->entity->Edit($this->entity);
+            }
         $this->Index();
     }
 

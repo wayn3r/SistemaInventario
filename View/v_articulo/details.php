@@ -4,6 +4,7 @@
 </h1>
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="home.php">Home</a></li>
         <li class="breadcrumb-item"><a href="categoria.php">Categoria</a></li>
         <li class="breadcrumb-item"><a href="categoria.php?id=<?=$this->viewBag->data[0]->idCategoria;?>"><?=$this->viewBag->data[0]->categoria;?></a></li>
         <li class="breadcrumb-item"><a href="tipoarticulo.php?id=<?=$this->viewBag->data[0]->idTipoArticulo;?>"><?=$this->viewBag->data[0]->tipoArticulo;?></a></li>

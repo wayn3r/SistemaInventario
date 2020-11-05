@@ -59,4 +59,3 @@
 </div>
 
 <div class="col-xl-10 col-lg-9 col-md-8 col-12" >
-<div class="container-fluid no-gutters">

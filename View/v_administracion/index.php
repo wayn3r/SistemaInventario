@@ -16,7 +16,7 @@
             <div class="card-header">
                 <span class="card-title">Registrar usuario</span>
             </div>
-            <div class="card-body">
+            <div class="card-body overflow-auto">
                 <p>Modulo para registrar nuevos usuarios</p>
                 <a href="administracion.php?accion=Signup" class="btn btn-success">Registrar usuario &raquo;</a>
             </div>
@@ -26,7 +26,7 @@
             <div class="card-header">
                 <span class="card-title">Usuarios</span>
             </div>
-            <div class="card-body">
+            <div class="card-body overflow-auto">
                 <p>Modulo para administrar usuarios</p>
                 <a href="administracion.php?accion=User" class="btn btn-info">Administrar usuarios &raquo;</a>
             </div>
@@ -35,7 +35,7 @@
             <div class="card-header">
                 <span class="card-title">Roles</span>
             </div>
-            <div class="card-body">
+            <div class="card-body overflow-auto">
                 <p>Modulo para administrar roles</p>
                 <a href="rol.php" class="btn btn-info">Administrar roles &raquo;</a>
             </div>

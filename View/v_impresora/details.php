@@ -9,7 +9,7 @@
     if($toners_impresora == '')
         $toners_impresora = "<div class='dropdown-item'>Sin registros</div>";
 ?>
-<div class="jumbotron">
+<div class="jumbotron ml-2 mr-2 overflow-auto">
 
 <h1 class="display-4">
     <?=$this->viewBag->data[0]->marca.' '.$this->viewBag->data[0]->modelo?>

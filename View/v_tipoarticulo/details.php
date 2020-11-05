@@ -7,7 +7,7 @@
     }
 
 ?>
-<div class="jumbotron">
+<div class="jumbotron ml-2 mr-2 overflow-auto">
     <h1 class="display-4">
         <?=$this->viewBag->data[0]->tipoArticulo;?>
     </h1>

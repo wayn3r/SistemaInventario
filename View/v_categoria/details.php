@@ -8,7 +8,7 @@
     $categoria = trim($this->viewBag->data[0]->categoria,'s,es');
     $categoria = strtolower($categoria);
 ?>
-    <div class="jumbotron">
+    <div class="jumbotron ml-2 mr-2 overflow-auto">
 
 <h1 class="display-4">
     <?=$this->viewBag->data[0]->categoria;?>

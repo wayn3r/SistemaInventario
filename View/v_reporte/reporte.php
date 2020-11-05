@@ -1,5 +1,5 @@
 <div class="col-11 col-sm-10 col-lg-8 m-auto" >
-    <div class="jumbotron">
+    <div class="jumbotron ml-2 mr-2 overflow-auto">
         <span class="display-4 text-uppercase"><?=$this->viewBag->mes?>, <?=$this->viewBag->year?></span>
     </div>
     <?php if(isset($this->viewBag->canvas) && $this->viewBag->canvas['data'] != '[]'){?>

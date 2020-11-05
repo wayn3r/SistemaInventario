@@ -8,7 +8,7 @@
         $tipos .= "<option value='{$tipo->idTipoArticulo}' >$tipo->tipoArticulo</option>";
     }
 ?>
-<div class="jumbotron">
+<div class="jumbotron ml-2 mr-2 overflow-auto">
 
 <h1 class="display-4">
     Todos los modelos

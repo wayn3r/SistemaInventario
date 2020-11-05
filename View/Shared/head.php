@@ -19,10 +19,10 @@ ob_start();
     <title>Ron Barceló - <?=isset($this->title) ? $this->title : 'Sistema Inventario'?></title>
     <link rel="stylesheet" href="../utils/css/bootstrap.min.css">
     <link rel="stylesheet" href="../utils/css/Chart.min.css">
-    <link rel="stylesheet" href="../utils/css/customcss.css">
+    <link rel="stylesheet" href="../utils/css/custom.css">
 </head>
 <body>        
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between sticky-top ">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between fixed-top ">
     <!-- MARCA-->
     <a href="home.php" class="navbar-brand ml-5">Ron Barceló</a>  
 
@@ -151,4 +151,4 @@ ob_start();
     </div>
 <?php } ?>
 </nav>    
-<div class="row no-gutters justify-content-between main-content mt-1">
+<div class="row no-gutters justify-content-between main-content">

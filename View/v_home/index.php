@@ -1,4 +1,4 @@
-<div class="container p-5">
+<div class="container p-auto mt-5">
     <h1 class="text-muted">ENTREGAS</h1>
     <div class="card-columns m-3">
         <div class="card border-success ">
@@ -57,71 +57,69 @@
         </div>
     </div>
 </div>
-<div class="container p-5">
-<h1 class="text-muted">INVENTARIO</h1>
-<div class="card-columns m-2 ">
-    <div class="card border-info">
-        <div class="card-header">
-            <span class="card-title">Categorias</span>
+<div class="container p-auto mt-5 mb-5">
+    <h1 class="text-muted">INVENTARIO</h1>
+    <div class="card-columns m-2 ">
+        <div class="card border-info">
+            <div class="card-header">
+                <span class="card-title">Categorias</span>
+            </div>
+            <div class="card-body overflow-auto">
+                <p>Todas las categorias de productos</p>
+                <div class="w-100"></div>
+                <a href="categoria.php" class="btn btn-primary">Ir a categorias &raquo;</a>
+            </div>
         </div>
-        <div class="card-body overflow-auto">
-            <p>Todas las categorias de productos</p>
-            <div class="w-100"></div>
-            <a href="categoria.php" class="btn btn-primary">Ir a categorias &raquo;</a>
+        <div class="card border-info">
+            <div class="card-header">
+                <span class="card-title">Articulos</span>
+            </div>
+            <div class="card-body overflow-auto">
+                <p >Todos los tipos de articulos</p>
+                <a href="tipoarticulo.php" class="btn btn-primary">Ir a articulos &raquo;</a>
+            </div>
+        </div>
+        <div class="card border-info">
+            <div class="card-header">
+                <span class="card-title">Modelos</span>
+            </div>
+            <div class="card-body overflow-auto">
+                <p>Todos los modelos de productos</p>
+                <a href="articulo.php" class="btn btn-primary">Ir a modelos &raquo;</a>
+            </div>
+        </div>
+        <div class="card border-info">
+            <div class="card-header">
+                <span class="card-title">
+                    Existencias
+                </span>
+            </div>
+            <div class="card-body overflow-auto">
+                <p>Existencias de todos los productos</p>
+                <a href="existencia.php" class="btn btn-primary">Ir a existencias &raquo;</a>
+            </div>
+        </div>
+        <div class="card border-info">
+            <div class="card-header">
+                <span class="card-title">
+                    Marcas
+                </span>
+            </div>
+            <div class="card-body overflow-auto">
+                <p>Todas las marcas de articulos</p>
+                <a href="marca.php" class="btn btn-primary ">Ir a marcas &raquo;</a>
+            </div>
+        </div>
+        <div class="card border-warning">
+            <div class="card-header">
+                <span class="card-title">
+                    Impresoras
+                </span>
+            </div>
+            <div class="card-body overflow-auto">
+                <p>Todas las impresoras registradas</p>
+                <a href="impresora.php" class="btn btn-primary ">Ir a impresoras &raquo;</a>
+            </div>
         </div>
     </div>
-    <div class="card border-info">
-        <div class="card-header">
-            <span class="card-title">Articulos</span>
-        </div>
-        <div class="card-body overflow-auto">
-            <p >Todos los tipos de articulos</p>
-            <a href="tipoarticulo.php" class="btn btn-primary">Ir a articulos &raquo;</a>
-        </div>
-    </div>
-    <div class="card border-info">
-        <div class="card-header">
-            <span class="card-title">Modelos</span>
-        </div>
-        <div class="card-body overflow-auto">
-            <p>Todos los modelos de productos</p>
-            <a href="articulo.php" class="btn btn-primary">Ir a modelos &raquo;</a>
-        </div>
-    </div>
-<!-- </div> -->
-<!-- <div class="card-columns m-2"> -->
-    <div class="card border-info">
-        <div class="card-header">
-            <span class="card-title">
-                Existencias
-            </span>
-        </div>
-        <div class="card-body overflow-auto">
-            <p>Existencias de todos los productos</p>
-            <a href="existencia.php" class="btn btn-primary">Ir a existencias &raquo;</a>
-        </div>
-    </div>
-    <div class="card border-info">
-        <div class="card-header">
-            <span class="card-title">
-                Marcas
-            </span>
-        </div>
-        <div class="card-body overflow-auto">
-            <p>Todas las marcas de articulos</p>
-            <a href="marca.php" class="btn btn-primary ">Ir a marcas &raquo;</a>
-        </div>
-    </div>
-    <div class="card border-warning">
-        <div class="card-header">
-            <span class="card-title">
-                Impresoras
-            </span>
-        </div>
-        <div class="card-body overflow-auto">
-            <p>Todas las impresoras registradas</p>
-            <a href="impresora.php" class="btn btn-primary ">Ir a impresoras &raquo;</a>
-        </div>
-    </div>
-</div>
 </div>

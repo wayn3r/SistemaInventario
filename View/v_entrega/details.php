@@ -11,8 +11,12 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="nombre" class="font-weight-bold col-2">Para:</label>
-        <span id="nombre" class="border-bottom pl-3 pr-3 col-10"><?=$this->viewBag->data[0]->departamento.' / '.$this->viewBag->data[0]->codigoEmpleado . ' / ' . $this->viewBag->data[0]->localidad?></span>
+        <label for="nombre" class="font-weight-bold col-6 col-sm-3 col-md-2">Localidad:</label>
+        <span id="nombre" class="border-bottom pl-3 pr-3 col-6 col-sm-6 col-md-4"><?=$this->viewBag->data[0]->localidad?></span>
+    </div>
+    <div class="form-group row">
+        <label for="nombre" class="font-weight-bold col-4 col-sm-2">Para:</label>
+        <span id="nombre" class="border-bottom pl-3 pr-3 col-8 col-sm-10"><?=$this->viewBag->data[0]->departamento.' / '.$this->viewBag->data[0]->codigoEmpleado ?></span>
     </div>
     <div class="table-responsive mb-4 mt-4">   
     <table class="table table-hover table-bordered">

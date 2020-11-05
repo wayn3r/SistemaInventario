@@ -141,6 +141,10 @@ class PdfController extends Controller{
             <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                         </tr>
                         <tr scope="row" class="border-bottom">
+                            <th scope="col" colspan="1">Localidad:</th>
+                            <td scope="col" colspan="10" >{$this->viewBag->data[0]->localidad}</td>
+                        </tr>
+                        <tr scope="row" class="border-bottom">
                             <th scope="col" colspan="1">Para:</th>
                             <td scope="col" colspan="20" >{$this->viewBag->data[0]->departamento} / {$this->viewBag->data[0]->codigoEmpleado}</td>
                         </tr>

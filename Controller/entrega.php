@@ -15,8 +15,9 @@ use Model\db\entity;
 use Model\Departamento;
 use Model\Empleado;
 use Model\Entrega;
-    
-    class EntregaController extends Controller{
+use Model\Perfil;
+
+class EntregaController extends Controller{
 
         public function __construct(){
             $this->entity = new Entrega();

@@ -7,6 +7,7 @@ class ListingEntregas extends entity{
     public $idEntrega;
     public $recibidoPor;
     public $entregadoPor;
+    public $localidad;
     public $fechaEntrega;
     public $terminado;
     public $idDepartamento;
@@ -22,6 +23,7 @@ class ListingEntregas extends entity{
         $this->addAttribute('recibidoPor');
         $this->addAttribute('idPerfil');
         $this->addAttribute('entregadoPor');
+        $this->addAttribute('localidad');
         $this->addAttribute('fechaEntrega');
         $this->addAttribute('terminado');
         $this->addAttribute('idDepartamento');

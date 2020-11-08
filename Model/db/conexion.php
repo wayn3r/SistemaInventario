@@ -11,7 +11,7 @@ class conexion {
         private function __construct(){
             try{
                 require_once('configx.php');
-                $this->conex = mysqli_connect(HOST,USER,PASS,NAME);
+                $this->conex = mysqli_connect(HOST,USER,PASS,NAME,PORT);
                 if(is_bool($this->conex)){
                     header('location: ../error.php');
                 }

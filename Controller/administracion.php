@@ -24,7 +24,7 @@ class AdministracionController extends Controller{
             $this->viewEntity = new ListingUsuarios();
             $this->childEntity = new Perfil();
             $this->viewName = 'v_administracion';
-            $this->title = 'Administracion';
+            $this->title = 'Administración';
             $this->subscribe();
         }
         public function Index()

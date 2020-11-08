@@ -38,7 +38,7 @@
                         foreach($this->viewBag->fechas as $fecha){?>
                         <li><a href="historico.php?id=<?=$fecha->idFecha?>&accion=Historico&tipo=articulo"><?=$fecha->fecha?></a></li>
                     <?php }}else{?>
-                        <li><span class="text-muted">No existen historicos registrados</span></li>
+                        <span class="text-muted">No existen historicos registrados</span>
                     <?php }?>
                         </ol>
                     </div>

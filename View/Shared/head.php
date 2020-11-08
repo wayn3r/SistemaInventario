@@ -25,7 +25,7 @@ ob_start();
 <body>        
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between fixed-top ">
     <!-- MARCA-->
-    <a href="home.php" class="navbar-brand ml-5">Ron Barceló</a>  
+    <a href="home.php" class="navbar-brand ml-5"> <img src="../img/brand.png" class="img-fluid" alt="Logo de Ron Barcelo" style="width: 30px;" > Ron Barceló</a>  
 
 <?php 
     $sesion = session::GetSession();

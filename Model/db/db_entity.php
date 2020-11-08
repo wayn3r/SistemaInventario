@@ -13,8 +13,12 @@ abstract class entity extends db{
     public function setAttribute(array $entidad){
         
         foreach($this->attributes as $atributo){
-            if(isset($entidad[$atributo]))                    
+            if(isset($entidad[$atributo])){
+                if(substr($atributo,0,5) == 'fecha'){
+                    $entidad[$atributo] = explode(' ',$entidad[$atributo])[0];
+                }
                 $this->$atributo = $entidad[$atributo];
+            }                    
             else
                 $this->$atributo = null;
         }

@@ -34,8 +34,11 @@
                             <a href="#fechas" data-toggle="collapse">Ocultar</a>
                         </div>
                         <ol>
-                    <?php foreach($this->viewBag->fechas as $fecha){?>
+                    <?php if(count($this->viewBag->fechas) > 0){
+                        foreach($this->viewBag->fechas as $fecha){?>
                         <li><a href="historico.php?id=<?=$fecha->idFecha?>&accion=Historico&tipo=articulo"><?=$fecha->fecha?></a></li>
+                    <?php }}else{?>
+                        <li><span class="text-muted">No existen historicos registrados</span></li>
                     <?php }?>
                         </ol>
                     </div>

@@ -54,7 +54,7 @@
                   
               <?php  }}else{?>
                     <tr scope="row" >
-                        <td scope="col" colspan="4" class="text-center">
+                        <td scope="col" colspan="5" class="text-center">
                             <span class="display-4 text-muted">No existen registros</span>
                         </td>
                     </tr>

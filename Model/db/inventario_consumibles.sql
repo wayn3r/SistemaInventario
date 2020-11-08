@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-11-2020 a las 14:53:56
+-- Tiempo de generación: 08-11-2020 a las 13:54:02
 -- Versión del servidor: 10.4.8-MariaDB
 -- Versión de PHP: 7.3.10
 
@@ -101,6 +101,43 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `acceso`
+--
+
+CREATE TABLE `acceso` (
+  `idAcceso` int(11) NOT NULL,
+  `controlador` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `pagina` varchar(50) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `acceso`
+--
+
+INSERT INTO `acceso` (`idAcceso`, `controlador`, `pagina`) VALUES
+(1, 'Todos', 'todo'),
+(2, 'Home', 'home.php'),
+(3, 'Administracion', 'administracion.php'),
+(4, 'Modelos', 'articulo.php'),
+(5, 'Articulos', 'tipoarticulo.php'),
+(6, 'Categorias', 'categoria.php'),
+(7, 'Correos', 'correo.php'),
+(8, 'Departamentos', 'departamento.php'),
+(9, 'Detalles', 'detalle.php'),
+(10, 'Empleados', 'empleado.php'),
+(11, 'Entregas', 'entrega.php'),
+(12, 'Existencias', 'existencia.php'),
+(13, 'Historicos', 'historico.php'),
+(14, 'Impresoras', 'impresora.php'),
+(15, 'Marcas', 'marca.php'),
+(16, 'Reporte', 'pdf.php'),
+(17, 'Perfil', 'perfil.php'),
+(18, 'Roles', 'rol.php'),
+(19, 'Usuario', 'usuario.php');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `articulo`
 --
 
@@ -110,16 +147,6 @@ CREATE TABLE `articulo` (
   `idMarca` int(11) NOT NULL,
   `modelo` varchar(100) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `articulo`
---
-
-INSERT INTO `articulo` (`idArticulo`, `idTipoArticulo`, `idMarca`, `modelo`) VALUES
-(4, 5, 1, 'JSKJDFHA-25'),
-(13, 19, 1, 'IMPRESORA-2.0'),
-(14, 5, 1, 'OTRO TONER'),
-(15, 19, 1, 'sn-diferente');
 
 --
 -- Disparadores `articulo`
@@ -143,14 +170,6 @@ CREATE TABLE `categoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `categoria`
---
-
-INSERT INTO `categoria` (`idCategoria`, `categoria`) VALUES
-(32, 'Productos de oficina'),
-(10, 'Toner');
-
---
 -- Disparadores `categoria`
 --
 DELIMITER $$
@@ -171,14 +190,6 @@ CREATE TABLE `correo` (
   `correo` varchar(100) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Volcado de datos para la tabla `correo`
---
-
-INSERT INTO `correo` (`idCorreo`, `correo`) VALUES
-(3, 'w9delacruz@gmail.com'),
-(1, 'w9jose@gmail.com');
-
 -- --------------------------------------------------------
 
 --
@@ -189,17 +200,13 @@ CREATE TABLE `departamento` (
   `idDepartamento` int(11) NOT NULL,
   `departamento` varchar(100) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
 --
 -- Volcado de datos para la tabla `departamento`
 --
 
 INSERT INTO `departamento` (`idDepartamento`, `departamento`) VALUES
-(2, 'Contabilidad'),
-(14, 'Gerencia'),
-(1, 'Informatica'),
-(5, 'Marketing'),
-(13, 'Servicio al cliente');
+(1, 'Administración');
+
 
 -- --------------------------------------------------------
 
@@ -213,18 +220,10 @@ CREATE TABLE `empleado` (
   `nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `apellido` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `correo` varchar(200) COLLATE utf8_spanish_ci NOT NULL,
-  `fechaEntrada` date NOT NULL DEFAULT current_timestamp(),
+  `fechaEntrada` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `idDepartamento` int(11) NOT NULL,
   `activo` bit(1) NOT NULL DEFAULT b'1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `empleado`
---
-
-INSERT INTO `empleado` (`idEmpleado`, `codigoEmpleado`, `nombre`, `apellido`, `correo`, `fechaEntrada`, `idDepartamento`, `activo`) VALUES
-(1, 'codigo-prueba', 'Jose', 'Perez', 'jose@correo', '2020-10-30', 1, b'1'),
-(14, 'asdasd', 'Luis', 'Lopez', 'luis@gmail.com', '2020-10-31', 5, b'1');
 
 -- --------------------------------------------------------
 
@@ -239,14 +238,6 @@ CREATE TABLE `entrega` (
   `fechaEntrega` date NOT NULL,
   `terminado` bit(1) NOT NULL DEFAULT b'0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `entrega`
---
-
-INSERT INTO `entrega` (`idEntrega`, `idPerfil`, `idEmpleado`, `fechaEntrega`, `terminado`) VALUES
-(35, 13, 14, '2020-10-31', b'1'),
-(36, 11, 1, '2020-11-01', b'1');
 
 --
 -- Disparadores `entrega`
@@ -295,31 +286,9 @@ CREATE TABLE `existencia` (
   `idExistencia` bigint(20) NOT NULL,
   `idArticulo` int(11) NOT NULL,
   `idEstado` int(11) NOT NULL,
-  `fechaInventario` date NOT NULL DEFAULT current_timestamp(),
+  `fechaInventario` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fechaCompra` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `existencia`
---
-
-INSERT INTO `existencia` (`idExistencia`, `idArticulo`, `idEstado`, `fechaInventario`, `fechaCompra`) VALUES
-(75, 4, 2, '2020-10-12', '2020-10-03'),
-(76, 4, 3, '2020-10-12', NULL),
-(77, 4, 3, '2020-10-12', NULL),
-(78, 4, 3, '2020-10-12', '2020-11-01'),
-(80, 4, 3, '2020-10-12', NULL),
-(81, 4, 3, '2020-10-12', NULL),
-(82, 4, 3, '2020-10-12', NULL),
-(83, 4, 3, '2020-09-30', NULL),
-(84, 4, 3, '2020-10-12', NULL),
-(85, 4, 3, '2020-10-12', NULL),
-(86, 4, 3, '2020-10-12', NULL),
-(87, 4, 3, '2020-10-12', NULL),
-(88, 4, 3, '2020-10-12', NULL),
-(90, 14, 1, '2020-10-20', NULL),
-(99, 4, 3, '2020-10-04', NULL),
-(100, 14, 1, '2020-10-25', '2020-10-09');
 
 --
 -- Disparadores `existencia`
@@ -350,24 +319,6 @@ CREATE TABLE `existencia_entrega` (
   `idExistencia` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Volcado de datos para la tabla `existencia_entrega`
---
-
-INSERT INTO `existencia_entrega` (`idEntrega`, `idExistencia`) VALUES
-(35, 76),
-(35, 77),
-(36, 80),
-(36, 81),
-(36, 82),
-(36, 83),
-(36, 84),
-(36, 85),
-(36, 86),
-(36, 87),
-(36, 88),
-(36, 99);
-
 -- --------------------------------------------------------
 
 --
@@ -391,20 +342,6 @@ CREATE TABLE `historico_articulo` (
   `cantidadStock` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Volcado de datos para la tabla `historico_articulo`
---
-
-INSERT INTO `historico_articulo` (`idHistorico`, `idFecha`, `fechaInventario`, `fechaCompra`, `idCategoria`, `categoria`, `idTipoArticulo`, `tipoArticulo`, `idArticulo`, `modelo`, `idMarca`, `marca`, `cantidadContada`, `cantidadStock`) VALUES
-(15, 13, '2020-10-12', '2020-11-01', 10, 'Toner', 5, 'Toner', 4, 'JSKJDFHA-25', 1, 'Generico', 14, 0),
-(16, 13, '-', '-', 32, 'Productos de oficina', 19, 'Impresora', 13, 'IMPRESORA-2.0', 1, 'Generico', 0, 0),
-(17, 13, '2020-10-25', '2020-10-09', 10, 'Toner', 5, 'Toner', 14, 'OTRO TONER', 1, 'Generico', 2, 2),
-(18, 13, '-', '-', 32, 'Productos de oficina', 19, 'Impresora', 15, 'sn-diferente', 1, 'Generico', 0, 0),
-(22, 15, '2020-10-12', '2020-11-01', 10, 'Toner', 5, 'Toner', 4, 'JSKJDFHA-25', 1, 'Generico', 14, 0),
-(23, 15, '-', '-', 32, 'Productos de oficina', 19, 'Impresora', 13, 'IMPRESORA-2.0', 1, 'Generico', 0, 0),
-(24, 15, '2020-10-25', '2020-10-09', 10, 'Toner', 5, 'Toner', 14, 'OTRO TONER', 1, 'Generico', 2, 2),
-(25, 15, '-', '-', 32, 'Productos de oficina', 19, 'Impresora', 15, 'sn-diferente', 1, 'Generico', 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -416,13 +353,6 @@ CREATE TABLE `historico_fecha` (
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Volcado de datos para la tabla `historico_fecha`
---
-
-INSERT INTO `historico_fecha` (`idFecha`, `fecha`) VALUES
-(13, '2020-11-01'),
-(15, '2020-11-02');
 
 -- --------------------------------------------------------
 
@@ -460,16 +390,9 @@ CREATE TABLE `impresora` (
   `idEstado` int(11) DEFAULT NULL,
   `serialNumber` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `direccionIp` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `fechaInventario` date DEFAULT current_timestamp(),
+  `fechaInventario` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fechaCompra` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `impresora`
---
-
-INSERT INTO `impresora` (`idImpresora`, `idArticulo`, `idEstado`, `serialNumber`, `direccionIp`, `fechaInventario`, `fechaCompra`) VALUES
-(16, 13, 1, 'sn123', '192.168.1.53', '2020-11-02', '2020-10-26');
 
 --
 -- Disparadores `impresora`
@@ -497,10 +420,8 @@ CREATE TABLE `localidad` (
 --
 
 INSERT INTO `localidad` (`idLocalidad`, `localidad`) VALUES
-(13, ''),
-(8, 'Santiago'),
-(1, 'Santo Domingo'),
-(5, 'Santo Domingo Este');
+(1, 'Santo Domingo');
+
 
 -- --------------------------------------------------------
 
@@ -518,7 +439,6 @@ CREATE TABLE `marcaarticulo` (
 --
 
 INSERT INTO `marcaarticulo` (`idMarca`, `marca`) VALUES
-(7, 'Asus'),
 (1, 'Generico');
 
 --
@@ -541,58 +461,13 @@ DELIMITER ;
 
 CREATE TABLE `notificacion` (
   `idNotificacion` int(11) NOT NULL,
-  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `tipoArticulo` varchar(50) COLLATE utf8_spanish_ci DEFAULT NULL,
   `modelo` varchar(100) COLLATE utf8_spanish_ci DEFAULT NULL,
   `visto` bit(1) NOT NULL DEFAULT b'0',
   `total` int(11) DEFAULT NULL,
   `restante` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `notificacion`
---
-
-INSERT INTO `notificacion` (`idNotificacion`, `fecha`, `tipoArticulo`, `modelo`, `visto`, `total`, `restante`) VALUES
-(226, '2020-10-25 22:40:46', 'Toner', 'JSKJDFHA-25', b'0', 15, 1),
-(228, '2020-10-25 18:41:13', 'Toner', 'JSKJDFHA-25', b'0', 15, 2),
-(265, '2020-10-25 23:58:51', 'Toner', 'JSKJDFHA-25', b'0', 16, 4),
-(266, '2020-10-25 23:58:51', 'Toner', 'JSKJDFHA-25', b'0', 16, 5),
-(267, '2020-10-25 23:58:51', 'Toner', 'JSKJDFHA-25', b'0', 16, 6),
-(268, '2020-10-25 23:58:51', 'Toner', 'JSKJDFHA-25', b'0', 16, 7),
-(269, '2020-10-25 23:58:51', 'Office', 'dsfsad', b'0', 8, 3),
-(270, '2020-10-30 22:50:28', 'Toner', 'JSKJDFHA-25', b'0', 16, 7),
-(271, '2020-10-30 22:50:28', 'Toner', 'JSKJDFHA-25', b'0', 16, 6),
-(272, '2020-10-30 22:50:28', 'Toner', 'JSKJDFHA-25', b'0', 16, 5),
-(273, '2020-10-30 22:50:28', 'Toner', 'JSKJDFHA-25', b'0', 16, 4),
-(274, '2020-10-30 22:50:28', 'Toner', 'JSKJDFHA-25', b'0', 16, 3),
-(275, '2020-10-30 22:50:28', 'Toner', 'JSKJDFHA-25', b'0', 16, 2),
-(276, '2020-10-30 22:50:28', 'Toner', 'JSKJDFHA-25', b'0', 16, 1),
-(277, '2020-10-30 22:50:28', 'Toner', 'JSKJDFHA-25', b'0', 16, 0),
-(278, '2020-10-30 22:56:47', 'Office', 'dsfsad', b'0', 8, 3),
-(279, '2020-10-30 22:56:47', 'Office', 'dsfsad', b'0', 8, 2),
-(280, '2020-10-30 23:12:26', 'Toner', 'OTRO TONER', b'0', 2, 0),
-(281, '2020-10-30 23:14:12', 'Toner', 'JSKJDFHA-25', b'0', 16, 0),
-(282, '2020-10-30 23:14:12', 'Toner', 'JSKJDFHA-25', b'0', 16, 0),
-(287, '2020-10-30 23:17:58', 'Toner', 'JSKJDFHA-25', b'0', 16, 0),
-(288, '2020-10-30 23:17:58', 'Toner', 'JSKJDFHA-25', b'0', 15, 0),
-(289, '2020-10-30 23:20:07', 'Toner', 'JSKJDFHA-25', b'0', 14, 0),
-(290, '2020-10-30 23:20:08', 'Toner', 'JSKJDFHA-25', b'0', 14, 0),
-(295, '2020-10-30 23:22:44', 'Office', 'dsfsad', b'0', 8, 2),
-(296, '2020-10-30 23:22:44', 'Office', 'dsfsad', b'0', 7, 1),
-(297, '2020-10-31 23:19:59', 'Office', 'dsfsad', b'0', 6, 1),
-(298, '2020-10-31 23:19:59', 'Toner', 'JSKJDFHA-25', b'0', 14, 1),
-(299, '2020-10-31 23:19:59', 'Toner', 'JSKJDFHA-25', b'0', 14, 2),
-(300, '2020-10-31 23:19:59', 'Toner', 'JSKJDFHA-25', b'0', 14, 3),
-(301, '2020-10-31 23:19:59', 'Toner', 'JSKJDFHA-25', b'0', 14, 4),
-(302, '2020-11-01 17:30:32', 'Toner', 'JSKJDFHA-25', b'0', 14, 4),
-(303, '2020-11-01 17:30:32', 'Toner', 'JSKJDFHA-25', b'0', 14, 3),
-(304, '2020-11-01 17:30:32', 'Toner', 'JSKJDFHA-25', b'0', 14, 2),
-(305, '2020-11-01 17:30:32', 'Toner', 'JSKJDFHA-25', b'0', 14, 1),
-(306, '2020-11-01 17:30:32', 'Toner', 'JSKJDFHA-25', b'0', 14, 0),
-(307, '2020-11-01 20:36:30', 'Toner', 'JSKJDFHA-25', b'0', 14, 0);
-
--- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `perfil`
@@ -603,7 +478,7 @@ CREATE TABLE `perfil` (
   `nombre` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `apellido` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `correo` varchar(200) COLLATE utf8_spanish_ci NOT NULL,
-  `fechaCreacion` date NOT NULL DEFAULT current_timestamp(),
+  `fechaCreacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `idLocalidad` int(11) NOT NULL,
   `idDepartamento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -613,10 +488,77 @@ CREATE TABLE `perfil` (
 --
 
 INSERT INTO `perfil` (`idPerfil`, `nombre`, `apellido`, `correo`, `fechaCreacion`, `idLocalidad`, `idDepartamento`) VALUES
-(11, 'Wayner', 'De La Cruz', 'ejemplo@gmail.com', '2020-10-30', 8, 2),
-(13, 'Jose', 'Perez', 'ejemplo2@gmail.com', '2020-10-31', 5, 5),
-(14, 'ashlym', 'hernandez', 'irisp161628292@gmail.com', '2020-11-02', 1, 1),
-(15, 'asdfds', 'dsagasdg', 'paty16162829@gmail.com', '2020-11-02', 5, 5);
+(1, 'Ron', 'Barceló', 'sistemainventariobarcelo@gmail.com', '2020-10-30', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rol`
+--
+
+
+CREATE TABLE `rol` (
+  `idRol` int(11) NOT NULL,
+  `rol` varchar(50) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `rol`
+--
+
+INSERT INTO `rol` (`idRol`, `rol`) VALUES
+(1, 'Administrador'),
+(3, 'Solo entregas'),
+(4, 'Solo inventario'),
+(2, 'Usuario');
+
+--
+-- Disparadores `rol`
+--
+DELIMITER $$
+CREATE TRIGGER `tr_eliminar_rol` BEFORE DELETE ON `rol` FOR EACH ROW begin
+	delete from rol_acceso where idRol = old.idRol;
+end
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rol_acceso`
+--
+
+CREATE TABLE `rol_acceso` (
+  `idRol` int(11) NOT NULL,
+  `idAcceso` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `rol_acceso`
+--
+
+INSERT INTO `rol_acceso` (`idRol`, `idAcceso`) VALUES
+(1, 1),
+(3, 2),
+(3, 7),
+(3, 8),
+(3, 9),
+(3, 10),
+(3, 11),
+(3, 13),
+(3, 16),
+(3, 17),
+(3, 19),
+(4, 2),
+(4, 4),
+(4, 5),
+(4, 6),
+(4, 12),
+(4, 14),
+(4, 15),
+(4, 17),
+(4, 19),
+(2, 1);
 
 -- --------------------------------------------------------
 
@@ -629,15 +571,6 @@ CREATE TABLE `tipoarticulo` (
   `tipoArticulo` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `idCategoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `tipoarticulo`
---
-
-INSERT INTO `tipoarticulo` (`idTipoArticulo`, `tipoArticulo`, `idCategoria`) VALUES
-(5, 'Toner', 10),
-(19, 'Impresora', 32),
-(23, 'Office', 32);
 
 --
 -- Disparadores `tipoarticulo`
@@ -660,15 +593,6 @@ CREATE TABLE `toner_impresora` (
   `idImpresora` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Volcado de datos para la tabla `toner_impresora`
---
-
-INSERT INTO `toner_impresora` (`idToner`, `idImpresora`) VALUES
-(4, 13),
-(4, 15),
-(14, 15);
-
 -- --------------------------------------------------------
 
 --
@@ -679,17 +603,29 @@ CREATE TABLE `usuario` (
   `idUsuario` int(11) NOT NULL,
   `user` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `pass` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-  `idPerfil` int(11) NOT NULL
+  `idPerfil` int(11) NOT NULL,
+  `idRol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`idUsuario`, `user`, `pass`, `idPerfil`) VALUES
-(40, 'wayn3r', '81dc9bdb52d04dc20036dbd8313ed055', 11),
-(43, 'ytifjf', '58ec85978c39c3bbefca8194a6deb5fb', 14),
-(44, 'paty', '202cb962ac59075b964b07152d234b70', 15);
+INSERT INTO `usuario` (`idUsuario`, `user`, `pass`, `idPerfil`, `idRol`) VALUES
+(1, 'barcelo', '81dc9bdb52d04dc20036dbd8313ed055', 1, 1);
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vw_accesos`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `vw_accesos` (
+`idRol` int(11)
+,`rol` varchar(50)
+,`idAcceso` int(11)
+,`controlador` varchar(50)
+,`pagina` varchar(50)
+);
 
 -- --------------------------------------------------------
 
@@ -770,6 +706,7 @@ CREATE TABLE `vw_entregas` (
 ,`recibidoPor` varchar(101)
 ,`idPerfil` int(11)
 ,`entregadoPor` varchar(201)
+,`localidad` varchar(100)
 ,`idDepartamento` int(11)
 ,`departamento` varchar(100)
 ,`idEmpleado` int(11)
@@ -881,6 +818,31 @@ CREATE TABLE `vw_toner_impresora` (
 -- --------------------------------------------------------
 
 --
+-- Estructura Stand-in para la vista `vw_usuarios`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `vw_usuarios` (
+`idUsuario` int(11)
+,`user` varchar(100)
+,`idPerfil` int(11)
+,`nombreCompleto` varchar(201)
+,`idRol` int(11)
+,`rol` varchar(50)
+,`fechaCreacion` date
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vw_accesos`
+--
+DROP TABLE IF EXISTS `vw_accesos`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_accesos`  AS  select `r`.`idRol` AS `idRol`,`r`.`rol` AS `rol`,`a`.`idAcceso` AS `idAcceso`,`a`.`controlador` AS `controlador`,`a`.`pagina` AS `pagina` from ((`rol` `r` left join `rol_acceso` `ra` on(`r`.`idRol` = `ra`.`idRol`)) left join `acceso` `a` on(`ra`.`idAcceso` = `a`.`idAcceso`)) ;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura para la vista `vw_articulos`
 --
 DROP TABLE IF EXISTS `vw_articulos`;
@@ -921,7 +883,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_entregas`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_entregas`  AS  select `de`.`idEntrega` AS `idEntrega`,concat(`epd`.`nombre`,' ',`epd`.`apellido`) AS `recibidoPor`,`p`.`idPerfil` AS `idPerfil`,concat(`p`.`nombre`,' ',`p`.`apellido`) AS `entregadoPor`,`d`.`idDepartamento` AS `idDepartamento`,`d`.`departamento` AS `departamento`,`epd`.`idEmpleado` AS `idEmpleado`,`epd`.`codigoEmpleado` AS `codigoEmpleado`,`de`.`fechaEntrega` AS `fechaEntrega`,`de`.`terminado` AS `terminado`,ifnull(count(`ee`.`idExistencia`),0) AS `totalArticulos` from ((((`entrega` `de` join `perfil` `p` on(`de`.`idPerfil` = `p`.`idPerfil`)) join `empleado` `epd` on(`de`.`idEmpleado` = `epd`.`idEmpleado`)) join `departamento` `d` on(`epd`.`idDepartamento` = `d`.`idDepartamento`)) left join `existencia_entrega` `ee` on(`de`.`idEntrega` = `ee`.`idEntrega`)) group by `de`.`idEntrega` order by `de`.`fechaEntrega` desc,`de`.`idEntrega` desc ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_entregas`  AS  select `de`.`idEntrega` AS `idEntrega`,concat(`epd`.`nombre`,' ',`epd`.`apellido`) AS `recibidoPor`,`p`.`idPerfil` AS `idPerfil`,concat(`p`.`nombre`,' ',`p`.`apellido`) AS `entregadoPor`,`l`.`localidad` AS `localidad`,`d`.`idDepartamento` AS `idDepartamento`,`d`.`departamento` AS `departamento`,`epd`.`idEmpleado` AS `idEmpleado`,`epd`.`codigoEmpleado` AS `codigoEmpleado`,`de`.`fechaEntrega` AS `fechaEntrega`,`de`.`terminado` AS `terminado`,ifnull(count(`ee`.`idExistencia`),0) AS `totalArticulos` from (((((`entrega` `de` join `perfil` `p` on(`de`.`idPerfil` = `p`.`idPerfil`)) join `localidad` `l` on(`p`.`idLocalidad` = `l`.`idLocalidad`)) join `empleado` `epd` on(`de`.`idEmpleado` = `epd`.`idEmpleado`)) join `departamento` `d` on(`epd`.`idDepartamento` = `d`.`idDepartamento`)) left join `existencia_entrega` `ee` on(`de`.`idEntrega` = `ee`.`idEntrega`)) group by `de`.`idEntrega` order by `de`.`fechaEntrega` desc,`de`.`idEntrega` desc ;
 
 -- --------------------------------------------------------
 
@@ -977,9 +939,24 @@ DROP TABLE IF EXISTS `vw_toner_impresora`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_toner_impresora`  AS  select `a`.`idArticulo` AS `idToner`,`ti`.`idImpresora` AS `idImpresora`,`a`.`idTipoArticulo` AS `idTipoArticulo`,`a`.`idMarca` AS `idMarca`,`a`.`modelo` AS `modelo` from ((`articulo` `a` left join `toner_impresora` `ti` on(`ti`.`idToner` = `a`.`idArticulo`)) join `tipoarticulo` `ta` on(`a`.`idTipoArticulo` = `ta`.`idTipoArticulo`)) where `ta`.`tipoArticulo` = 'toner' ;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vw_usuarios`
+--
+DROP TABLE IF EXISTS `vw_usuarios`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_usuarios`  AS  select `u`.`idUsuario` AS `idUsuario`,`u`.`user` AS `user`,`u`.`idPerfil` AS `idPerfil`,concat(`p`.`nombre`,' ',`p`.`apellido`) AS `nombreCompleto`,`u`.`idRol` AS `idRol`,`r`.`rol` AS `rol`,`p`.`fechaCreacion` AS `fechaCreacion` from ((`usuario` `u` join `perfil` `p` on(`u`.`idPerfil` = `p`.`idPerfil`)) join `rol` `r` on(`u`.`idRol` = `r`.`idRol`)) ;
+
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `acceso`
+--
+ALTER TABLE `acceso`
+  ADD PRIMARY KEY (`idAcceso`);
 
 --
 -- Indices de la tabla `articulo`
@@ -1108,6 +1085,24 @@ ALTER TABLE `perfil`
   ADD KEY `fk_deparmento_perfil_idx` (`idDepartamento`);
 
 --
+--
+--
+
+--
+-- Indices de la tabla `rol`
+--
+ALTER TABLE `rol`
+  ADD PRIMARY KEY (`idRol`),
+  ADD UNIQUE KEY `rol_UNIQUE` (`rol`);
+
+--
+-- Indices de la tabla `rol_acceso`
+--
+ALTER TABLE `rol_acceso`
+  ADD PRIMARY KEY (`idRol`,`idAcceso`),
+  ADD KEY `fk_acceso_rolAcceso_idx` (`idAcceso`);
+
+--
 -- Indices de la tabla `tipoarticulo`
 --
 ALTER TABLE `tipoarticulo`
@@ -1127,119 +1122,132 @@ ALTER TABLE `toner_impresora`
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`idUsuario`),
   ADD UNIQUE KEY `user_UNIQUE` (`user`),
-  ADD UNIQUE KEY `idPerfil_UNIQUE` (`idPerfil`);
+  ADD UNIQUE KEY `idPerfil_UNIQUE` (`idPerfil`),
+  ADD KEY `fk_rol_usuario_idx` (`idRol`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
+-- AUTO_INCREMENT de la tabla `acceso`
+--
+ALTER TABLE `acceso`
+  MODIFY `idAcceso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
 -- AUTO_INCREMENT de la tabla `articulo`
 --
 ALTER TABLE `articulo`
-  MODIFY `idArticulo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `idArticulo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `correo`
 --
 ALTER TABLE `correo`
-  MODIFY `idCorreo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idCorreo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `idDepartamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `idDepartamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `empleado`
 --
 ALTER TABLE `empleado`
-  MODIFY `idEmpleado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `idEmpleado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `entrega`
 --
 ALTER TABLE `entrega`
-  MODIFY `idEntrega` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `idEntrega` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `idEstado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idEstado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `existencia`
 --
 ALTER TABLE `existencia`
-  MODIFY `idExistencia` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `idExistencia` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `historico_articulo`
 --
 ALTER TABLE `historico_articulo`
-  MODIFY `idHistorico` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `idHistorico` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `historico_fecha`
 --
 ALTER TABLE `historico_fecha`
-  MODIFY `idFecha` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idFecha` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `historico_impresora`
 --
 ALTER TABLE `historico_impresora`
-  MODIFY `idHistorico` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idHistorico` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `impresora`
 --
 ALTER TABLE `impresora`
-  MODIFY `idImpresora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idImpresora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `localidad`
 --
 ALTER TABLE `localidad`
-  MODIFY `idLocalidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `idLocalidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `marcaarticulo`
 --
 ALTER TABLE `marcaarticulo`
-  MODIFY `idMarca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `idMarca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `notificacion`
 --
 ALTER TABLE `notificacion`
-  MODIFY `idNotificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=308;
+  MODIFY `idNotificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `perfil`
 --
 ALTER TABLE `perfil`
-  MODIFY `idPerfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `idPerfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `rol`
+--
+ALTER TABLE `rol`
+  MODIFY `idRol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tipoarticulo`
 --
 ALTER TABLE `tipoarticulo`
-  MODIFY `idTipoArticulo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `idTipoArticulo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
@@ -1306,6 +1314,13 @@ ALTER TABLE `perfil`
   ADD CONSTRAINT `fk_localidad_perfil` FOREIGN KEY (`idLocalidad`) REFERENCES `localidad` (`idLocalidad`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Filtros para la tabla `rol_acceso`
+--
+ALTER TABLE `rol_acceso`
+  ADD CONSTRAINT `fk_acceso_rolAcceso` FOREIGN KEY (`idAcceso`) REFERENCES `acceso` (`idAcceso`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_rol_rolAcceso` FOREIGN KEY (`idRol`) REFERENCES `rol` (`idRol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Filtros para la tabla `tipoarticulo`
 --
 ALTER TABLE `tipoarticulo`
@@ -1322,7 +1337,8 @@ ALTER TABLE `toner_impresora`
 -- Filtros para la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD CONSTRAINT `fk_perfil_usuario` FOREIGN KEY (`idPerfil`) REFERENCES `perfil` (`idPerfil`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_perfil_usuario` FOREIGN KEY (`idPerfil`) REFERENCES `perfil` (`idPerfil`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_rol_usuario` FOREIGN KEY (`idRol`) REFERENCES `rol` (`idRol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,7 +1,7 @@
 <?php
     namespace Model\db;
     define('HOST','localhost');
-    define('USER','root');
-    define('PASS','');
-    define('NAME','inventario_consumibles');
+    define('USER','azure');
+    define('PASS','6#vWHD_$');
+    define('NAME','sistema_inventario_db');
 ?>

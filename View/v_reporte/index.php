@@ -18,17 +18,17 @@
         <form action="reporte.php" class="m-auto needs-validation collapse <?=isset($this->viewBag->data['tipo'])?'show':''?> <?=isset($this->viewBag->data['error'])?'was-validated':''?>" method="post" id='entrega_articulo' novalidate data-parent='#all'>
             <div class="accordion" id="accordion">
                 <div class="btn-toolbar mb-3 btn-group-toggle " role="toolbar" data-toggle="buttons">
-                    <div class="btn-group btn-group-lg mr-2" role="group" >
+                    <div class="btn-group btn-group-lg mr-2 mt-2" role="group" >
                     <label class="btn btn-secondary">
                         <input type="radio" required name="tipo" <?=isset($this->viewBag->data['tipo'])?($this->viewBag->data['tipo']=='mes'?'checked':''):'checked'?> onchange="selectedFilter()" value="mes" id="" autocomplete="off" data-target="#mes" data-toggle="collapse"> Mes
                     </label>
                     </div>
-                    <div class="btn-group btn-group-lg mr-2" role="group" >
+                    <div class="btn-group btn-group-lg mr-2 mt-2" role="group" >
                     <label class="btn btn-secondary">
                         <input type="radio" required name="tipo" <?=isset($this->viewBag->data['tipo'])?($this->viewBag->data['tipo']=='dia'?'checked':''):''?> onchange="selectedFilter()" value="dia" autocomplete="off"  data-target="#dia" data-toggle="collapse" > Dia
                     </label>
                     </div>
-                    <div class="btn-group btn-group-lg mr-2 " role="group" >
+                    <div class="btn-group btn-group-lg mr-2 mt-2" role="group" >
                     <label class="btn btn-secondary">
                         <input type="radio" required name="tipo" <?=isset($this->viewBag->data['tipo'])?($this->viewBag->data['tipo']=='rango'?'checked':''):''?> onchange="selectedFilter()" value="rango" autocomplete="off"  data-target="#rango" data-toggle="collapse"> Rango de fecha
                     </label>
@@ -47,19 +47,19 @@
                             
                 <div class="form-group collapse" id='mes' data-parent="#accordion">
                     <label>Mes:</label>
-                    <input type="month" class="form-control" name="mes" placeholder="dd/mm/yyyy" >
+                    <input type="month" class="form-control" name="mes" placeholder="yyyy-mm" >
                     <span class="invalid-feedback">Por favor, selecciona un mes</span>
                 </div>
                 <div class="form-group collapse " id='dia' data-parent="#accordion">
                     <label>Dia:</label>
-                    <input type="date" class="form-control" name="dia" placeholder="dd/mm/yyyy">
+                    <input type="date" class="form-control" name="dia" placeholder="yyyy-mm-dd">
                     <span class="invalid-feedback">Por favor, selecciona un dia</span>
                 </div>
                 <div class="form-group collapse" id='rango' data-parent="#accordion">
                     <label>Desde:</label>
-                    <input type="date" class="form-control" name="desde" placeholder="dd/mm/yyyy">
+                    <input type="date" class="form-control" name="desde" placeholder="yyyy-mm-dd">
                     <label>Hasta:</label>
-                    <input type="date" class="form-control" name="hasta" placeholder="dd/mm/yyyy">
+                    <input type="date" class="form-control" name="hasta" placeholder="yyyy-mm-dd">
                     <span class="invalid-feedback">Por favor, selecciona un rango de fecha</span>
                 </div>
             </div>
@@ -71,22 +71,22 @@
         <form action="reporte.php" class="m-auto needs-validation collapse <?=isset($this->viewBag->data['tipoImpresora'])?'show':''?> <?=isset($this->viewBag->data['error']['impresora'])?'was-validated':''?>" method="post" id='impresora' novalidate data-parent='#all'>
             <div class="accordion" id="accordion_impresora">
                 <div class="btn-toolbar mb-3 btn-group-toggle" role="toolbar" data-toggle="buttons">
-                    <div class="btn-group btn-group-lg mr-2" role="group" >
+                    <div class="btn-group btn-group-lg mr-2 mt-2" role="group" >
                     <label class="btn btn-secondary">
                         <input type="radio" required name="tipoImpresora" <?=isset($this->viewBag->data['tipo'])?($this->viewBag->data['tipoImpresora']=='estado'?'checked':''):'checked'?> onchange="selectedFilter()" value="estado" id="" autocomplete="off" data-target="#estado" data-toggle="collapse"> Estado
                     </label>
                     </div>
-                    <div class="btn-group btn-group-lg mr-2" role="group" >
+                    <div class="btn-group btn-group-lg mr-2 mt-2" role="group" >
                     <label class="btn btn-secondary">
                         <input type="radio" required name="tipoImpresora" <?=isset($this->viewBag->data['tipoImpresora'])?($this->viewBag->data['tipoImpresora']=='fechaentrada'?'checked':''):''?> onchange="selectedFilter()" value="fechaentrada"  autocomplete="off"  data-target="#fechaentrada" data-toggle="collapse" > Fecha de entrada
                     </label>
                     </div>
-                    <div class="btn-group btn-group-lg mr-2 " role="group" >
+                    <div class="btn-group btn-group-lg mr-2 mt-2" role="group" >
                     <label class="btn btn-secondary">
                         <input type="radio" required name="tipoImpresora" <?=isset($this->viewBag->data['tipoImpresora'])?($this->viewBag->data['tipoImpresora']=='fechacompra'?'checked':''):''?> onchange="selectedFilter()" value="fechacompra" autocomplete="off"  data-target="#fechacompra" data-toggle="collapse"> Fecha de compra
                     </label>
                     </div>
-                    <div class="btn-group btn-group-lg mr-2 " role="group" >
+                    <div class="btn-group btn-group-lg mr-2 mt-2" role="group" >
                     <label class="btn btn-secondary">
                         <input type="radio" required name="tipoImpresora" <?=isset($this->viewBag->data['tipoImpresora'])?($this->viewBag->data['tipoImpresora']=='marca'?'checked':''):''?> onchange="selectedFilter()" value="marca" id="option1" autocomplete="off"  data-target="#marca" data-toggle="collapse"> Marca
                     </label>
@@ -104,16 +104,16 @@
                 </div>
                 <div class="form-group collapse" id='fechaentrada' data-parent="#accordion_impresora">
                     <label>Desde:</label>
-                    <input type="date" class="form-control" name="desdefe" placeholder="dd/mm/yyyy">
+                    <input type="date" class="form-control" name="desdefe" placeholder="yyyy-mm-dd">
                     <label>Hasta:</label>
-                    <input type="date" class="form-control" name="hastafe" placeholder="dd/mm/yyyy">
+                    <input type="date" class="form-control" name="hastafe" placeholder="yyyy-mm-dd">
                     <span class="invalid-feedback">Por favor, selecciona un rango de fecha</span>
                 </div>
                 <div class="form-group collapse" id='fechacompra' data-parent="#accordion_impresora">
                     <label>Desde:</label>
-                    <input type="date" class="form-control" name="desdefc" placeholder="dd/mm/yyyy">
+                    <input type="date" class="form-control" name="desdefc" placeholder="yyyy-mm-dd">
                     <label>Hasta:</label>
-                    <input type="date" class="form-control" name="hastafc" placeholder="dd/mm/yyyy">
+                    <input type="date" class="form-control" name="hastafc" placeholder="yyyy-mm-dd">
                     <span class="invalid-feedback">Por favor, selecciona un rango de fecha</span>
                 </div>
                 <div class="form-group collapse" id="marca" data-parent="#accordion_impresora">

@@ -82,7 +82,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label required for="fechaCompra">Fecha de compra:</label>
-                                                <input type="date" name="fechaCompra" id="fechaCompra" value="{$row->fechaCompra}" class="form-control" placeholder="Escriba la dirección Ip">
+                                                <input type="date" name="fechaCompra" id="fechaCompra" value="{$row->fechaCompra}" class="form-control" placeholder="yyyy-mm-dd">
                                             </div>
                                             <div class="form-group">
                                                 <label for="estado">Estado:</label>
@@ -135,7 +135,7 @@
                     </div>
                     <div class="form-group">
                         <label for="fechaCompra">Fecha de compra:</label>
-                        <input required type="date" name="fechaCompra" id="fechaCompra" value="<?=date('Y-m-d')?>" class="form-control">
+                        <input required type="date" name="fechaCompra" id="fechaCompra" value="<?=date('Y-m-d')?>" class="form-control" placeholder="yyyy-mm-dd">
                     </div>
                     <div class="form-group">
                         <label for="estado">Estado:</label>

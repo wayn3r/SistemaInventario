@@ -22,7 +22,7 @@
     </div>
     <div class="form-group">
         <label for="">Fecha de entrega:</label>
-        <input type="date" class="form-control" readonly value="<?=date('Y-m-d')?>" value="<?=isset($this->viewBag->data->fechaEntrega)?$this->viewBag->data->fechaEntrega:''?>" required>
+        <input type="date" placeholder="yyyy-mm-dd" class="form-control" readonly value="<?=date('Y-m-d')?>" required>
     </div>
     <div class="form-group row justify-content-between col-12 p-0 no-gutters">
         <a <?=isset($this->viewBag->data->idEntrega)?'href="#remove" data-toggle="modal"':'href="entrega.php"'?> class="btn btn-danger col-5 col-sm-4 col-md-3 col-lg-2">Cancelar</a>

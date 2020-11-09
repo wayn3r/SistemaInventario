@@ -34,6 +34,7 @@
     function getMonth(string $month):string{
         $month = explode('-',$month);
         $month = count($month) == 1?explode('/',$month[0]):$month[1];
+        $month = is_array($month)?(count($month) > 1?$month[1]:'Més Invalido'):$month;
         switch($month){
             case '1':
                 $month = 'enero';

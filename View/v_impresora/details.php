@@ -125,7 +125,7 @@ else{
                                     </div>
                                     <div class="form-group">
                                         <label for="fechaCompra">Fecha de compra:</label>
-                                        <input required type="date" value="{$row->fechaCompra}" name="fechaCompra" id="fechaCompra" class="form-control">
+                                        <input required type="date" value="{$row->fechaCompra}" name="fechaCompra" id="fechaCompra" class="form-control" placeholder="yyyy-mm-dd">
                                     </div>
                                     <div class="form-group">
                                         <label for="estado">Estado:</label>
@@ -210,7 +210,7 @@ else{
             </div>
             <div class="form-group">
                 <label for="fechaCompra">Fecha de compra:</label>
-                <input required type="date" name="fechaCompra" id="fechaCompra" class="form-control">
+                <input required type="date" name="fechaCompra" id="fechaCompra" class="form-control" placeholder="yyyy-mm-dd">
             </div>
             <div class="form-group">
                 <label for="estado">Estado:</label>

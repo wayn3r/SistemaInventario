@@ -1,6 +1,6 @@
 <div class="container p-auto mt-5">
     <h1 class="text-muted">ENTREGAS</h1>
-    <div class="card-columns m-3">
+    <div class="card-columns m-2">
         <div class="card border-success ">
             <div class="card-header">
                 <span class="card-title">Entregas</span>

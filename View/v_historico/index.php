@@ -50,7 +50,7 @@
                 
                 <div class="form-group" id='fecha'>
                     <label>Fecha historico:</label>
-                    <input type="date" class="form-control" required  name="fecha" placeholder="dd/mm/yyyy">
+                    <input type="date" class="form-control" required  name="fecha" placeholder="yyyy-mm-dd">
                     <span class="invalid-feedback">Por favor, selecciona una fecha</span>
                 </div>
             <div class="d-flex justify-content-end mb-5">

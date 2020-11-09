@@ -4,11 +4,18 @@
     require_once('../Model/m_notificacion.php');
     require_once('../Observer/interfaces.php');
     require_once('../filters/sesion.php');
-    use Model\db\entity;
+    require_once('../filters/filter.php');
+ 
+use filter\Filter;
+use Model\db\entity;
 use Model\Notificacion;
 use Observer\iSubscriber;
 use stdClass;
 
+//asegurando que tenga el usuario tenga permisos
+$filter = new Filter;
+$filter->Filtrar();
+ 
 abstract class Controller implements iSubscriber{
         protected $viewName;
         protected $entity;

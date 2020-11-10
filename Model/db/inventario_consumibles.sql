@@ -235,7 +235,7 @@ CREATE TABLE `entrega` (
   `idEntrega` int(11) NOT NULL,
   `idPerfil` int(11) NOT NULL,
   `idEmpleado` int(11) NOT NULL,
-  `fechaEntrega` date NOT NULL,
+  `fechaEntrega` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `terminado` bit(1) NOT NULL DEFAULT b'0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -965,6 +965,7 @@ ALTER TABLE `articulo`
   ADD PRIMARY KEY (`idArticulo`),
   ADD KEY `fk_tipoarticulo_articulo_idx` (`idTipoArticulo`),
   ADD KEY `fk_marcaarticulo_articulo_idx` (`idMarca`);
+  ADD UNIQUE KEY `modelo_UNIQUE` (`modelo`);
 
 --
 -- Indices de la tabla `categoria`

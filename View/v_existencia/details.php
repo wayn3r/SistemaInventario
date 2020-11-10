@@ -137,12 +137,20 @@
                         <label for="fechaCompra">Fecha de compra:</label>
                         <input required type="date" name="fechaCompra" id="fechaCompra" value="<?=date('Y-m-d')?>" class="form-control" placeholder="yyyy-mm-dd">
                     </div>
-                    <div class="form-group">
+                    <div class="row">
+                    <div class="form-group col-6">
+                        <label for="cantidad">Número de existencias:</label>
+                        <input required type="number" name="cantidad" id="cantidad" value="1" class="form-control" placeholder="Escriba la cantidad de existencias a agregar">
+                    </div>
+                    <div class="form-group col-6">
                         <label for="estado">Estado:</label>
-                        <select required name="idEstado" id="estado" class="form-control">
-                        <option value="">Selecciona un estado</option>
-                        <?=$estados?>
+                        <select required name="idEstado" id="idEstado" class="form-control">
+                            <option value="">
+                                Selecciona un estado
+                            </option>
+                            <?=$estados?>
                         </select>
+                    </div>
                     </div>
             </div>
             <div class="modal-footer">

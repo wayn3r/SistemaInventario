@@ -136,30 +136,38 @@
                 <form action="existencia.php" method="post" class="form-group">
                     <div class="form-group">
                         <label for="idArticulo">Articulo:</label>
-                        <select required name="idArticulo" id="idArticulo" class="form-control">
+                        <select required name="idArticulo" id="idArticulo" class="form-control" >
                             <option value="">Selecciona un modelo</option>
-                                <?=$opciones?>
+                            <?=$opciones?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="fechaCompra">Fecha de compra:</label>
-                        <input required type="date" name="fechaCompra" id="fechaCompra" value="<?=date('Y-m-d')?>" class="form-control" placeholder="yyyy-mm-dd">
+                        <input  required type="date" name="fechaCompra" id="fechaCompra" value="<?=date('Y-m-d')?>" class="form-control" placeholder="yyyy-mm-dd">
                     </div>
-                    <div class="form-group">
+                    <div class="row">
+                    <div class="form-group col-6">
+                        <label for="cantidad">Número de existencias:</label>
+                        <input required type="number" name="cantidad" id="cantidad" value="1" class="form-control" placeholder="Escriba la cantidad de existencias a agregar">
+                    </div>
+                    <div class="form-group col-6">
                         <label for="estado">Estado:</label>
-                        <select required name="idEstado" id="estado" class="form-control">
-                        <option value="">Selecciona un estado</option>
-                        <?=$estados?>
+                        <select required name="idEstado" id="idEstado" class="form-control">
+                            <option value="">
+                                Selecciona un estado
+                            </option>
+                            <?=$estados?>
                         </select>
+                    </div>
                     </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" value="Add" type="submit" name="accion">Agregar</button>
-                <button class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-success" value="Add" type="submit" name="accion">Agregar</button>
+                    <button class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
                 </form>
-            </div>
-            
-           
+            </div>           
         </div>
     </div>
 </div>
+
+

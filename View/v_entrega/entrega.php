@@ -12,6 +12,7 @@
             <a href="empleado.php" class="ml-auto">Agregar nuevo empleado</a>
         </div>
         <input type="text" class="form-control" list="empleados" name="codigoEmpleado" placeholder="Escriba el codigo de empleado del receptor" value="<?=isset($this->viewBag->data->codigoEmpleado)?$this->viewBag->data->codigoEmpleado:''?>" required>
+        <input type="text" class="form-control" name="idEmpleado" hidden value="<?=isset($this->viewBag->data->idEmpleado)?$this->viewBag->data->idEmpleado:''?>" >
         <?php if(isset($this->viewBag->empleados)){?>
             <datalist id="empleados">
                 <?php foreach($this->viewBag->empleados as $row){?>

@@ -59,7 +59,9 @@ abstract class db implements iSubject{
             return $conex;
         }
         public function EditFields(string $field, string $newValue, string $oldValue, int $id = 0){
-            $sql = "update {$this->tableName} set {$field} = '{$newValue}' where ";
+            $sql = "update {$this->tableName} set {$field} = ";
+            $sql .= is_numeric($newValue)?$newValue:"'{$newValue}'";
+            $sql .= ' where '; 
             if($id > 0){
                 $sql.="{$this->idName} = '{$id}';"; 
             }

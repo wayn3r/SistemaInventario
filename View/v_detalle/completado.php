@@ -28,7 +28,7 @@
         </div>
         <div class="row">    
             <span class="font-weight-bold col-6">Estado:</span>
-            <span class="col-6 align-self-end"><?=($this->viewBag->data->terminado==1?'Completada':'Imcompleta')?></span>
+            <span class="col-6 align-self-end"><?=($this->viewBag->data->terminado==1?'Completada':'Incompleta')?></span>
         </div>
         
     </section>

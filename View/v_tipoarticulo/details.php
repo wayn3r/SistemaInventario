@@ -1,6 +1,5 @@
 <?php
-    $tipoArticulo = $this->viewBag->data[0]->tipoArticulo;
-    $tipoArticulo = strtolower($tipoArticulo);
+    $tipoArticulo = strtolower($this->viewBag->data[0]->tipoArticulo);
     $marcas = '';
     foreach($this->viewBag->opciones as $marca){
         $marcas .= "<option value='{$marca->idMarca}' >$marca->marca</option>";

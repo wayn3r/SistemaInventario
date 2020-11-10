@@ -1,12 +1,5 @@
 <?php
-
-    // use filter\Filter;
-    // require_once('../../filters/filter.php');
-    // $filter = new Filter;
-    // $filter->Filtrar();
-    
-    $categoria = trim($this->viewBag->data[0]->categoria,'s,es');
-    $categoria = strtolower($categoria);
+    $categoria = strtolower($this->viewBag->data[0]->categoria);
 ?>
     <div class="jumbotron ml-2 mr-2 overflow-auto">
 

@@ -1,12 +1,5 @@
 <?php
-
-    // use filter\Filter;
-    // require_once('../../filters/filter.php');
-    // $filter = new Filter;
-    // $filter->Filtrar();
-    
-    $rol = trim($this->viewBag->data[0]->rol,'s,es');
-    $rol = strtolower($rol);
+    $rol = strtolower($this->viewBag->data[0]->rol);
 ?>
 <main class="col-12">
    <div class="jumbotron ml-2 mr-2 overflow-auto">

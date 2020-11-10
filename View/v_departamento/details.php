@@ -1,8 +1,3 @@
-<?php
-    
-    $departamento = trim($this->viewBag->data[0]->departamento,'s,es');
-    $departamento = strtolower($departamento);
-?>
 <main class="col-12">
     <div class="jumbotron ml-2 mr-2 overflow-auto">
 

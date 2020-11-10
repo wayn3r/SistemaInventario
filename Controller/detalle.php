@@ -61,7 +61,8 @@ class DetalleController extends Controller{
     
         public function Details(int $id=0, entity $entidad = null){
             $this->setViewBag();
-            $this->viewBag->receptor = $this->childEntity->setAttribute($this->childEntity->Find($id)[0]);
+            $receptor = new ListingEntregas();
+            $this->viewBag->receptor = $receptor->setAttribute($receptor->Find($id)[0]);
             if($this->viewBag->receptor->terminado == 1){
                 return $this->Index();
             }
@@ -69,7 +70,7 @@ class DetalleController extends Controller{
             $articulos = new ListingArticulos();
             $tipoarticulo = new ListingTipoArticulos();    
             
-            $this->viewBag->data = $this->viewEntity->ReturnList("idEntrega = {$this->childEntity->idEntrega}");
+            $this->viewBag->data = $this->viewEntity->ReturnList("idEntrega = {$receptor->idEntrega}");
             $this->viewBag->tipoarticulos = $tipoarticulo->ReturnList("tipoArticulo != 'impresora'");
             $this->viewBag->articulos = json_encode($articulos->List("tipoArticulo != 'impresora' and cantidadStock > 0"));
             return $this->getView('details', false);

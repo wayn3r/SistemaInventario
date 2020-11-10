@@ -4,7 +4,7 @@
         <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
     </div>
 <table class="table table-hover mt-3">
-    <caption><p>Entrega para: <strong><?=$this->viewBag->receptor->nombreReceptor.' '.$this->viewBag->receptor->apellidoReceptor?></strong></p></caption>
+    <caption><p>Entrega para: <strong><?=$this->viewBag->receptor->recibidoPor?></strong></p></caption>
     <thead>
         <th>Cantidad</th>
         <th>Articulo</th>

@@ -1,3 +1,5 @@
+CREATE DATABASE sistema_inventario_db;
+USE sistema_inventario_db;
 -- phpMyAdmin SQL Dump
 -- version 4.9.1
 -- https://www.phpmyadmin.net/
@@ -205,7 +207,7 @@ CREATE TABLE `departamento` (
 --
 
 INSERT INTO `departamento` (`idDepartamento`, `departamento`) VALUES
-(1, 'Administración');
+(1, 'Administracion');
 
 
 -- --------------------------------------------------------
@@ -488,7 +490,7 @@ CREATE TABLE `perfil` (
 --
 
 INSERT INTO `perfil` (`idPerfil`, `nombre`, `apellido`, `correo`, `fechaCreacion`, `idLocalidad`, `idDepartamento`) VALUES
-(1, 'Ron', 'Barceló', 'sistemainventariobarcelo@gmail.com', '2020-10-30', 1, 1);
+(1, 'Ron', 'Barcelo', 'sistemainventariobarcelo@gmail.com', '2020-10-30', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -964,7 +966,7 @@ ALTER TABLE `acceso`
 ALTER TABLE `articulo`
   ADD PRIMARY KEY (`idArticulo`),
   ADD KEY `fk_tipoarticulo_articulo_idx` (`idTipoArticulo`),
-  ADD KEY `fk_marcaarticulo_articulo_idx` (`idMarca`);
+  ADD KEY `fk_marcaarticulo_articulo_idx` (`idMarca`),
   ADD UNIQUE KEY `modelo_UNIQUE` (`modelo`);
 
 --

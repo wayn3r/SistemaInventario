@@ -207,7 +207,7 @@ CREATE TABLE `departamento` (
 --
 
 INSERT INTO `departamento` (`idDepartamento`, `departamento`) VALUES
-(1, 'Administración');
+(1, 'Administracion');
 
 
 -- --------------------------------------------------------
@@ -490,7 +490,7 @@ CREATE TABLE `perfil` (
 --
 
 INSERT INTO `perfil` (`idPerfil`, `nombre`, `apellido`, `correo`, `fechaCreacion`, `idLocalidad`, `idDepartamento`) VALUES
-(1, 'Ron', 'Barceló', 'sistemainventariobarcelo@gmail.com', '2020-10-30', 1, 1);
+(1, 'Ron', 'Barcelo', 'sistemainventariobarcelo@gmail.com', '2020-10-30', 1, 1);
 
 -- --------------------------------------------------------
 

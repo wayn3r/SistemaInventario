@@ -50,7 +50,7 @@ class ImpresoraController extends Controller{
             
             $articulos = new Articulo();
             $idImpresora = new TipoArticulo();
-            $idImpresora = $idImpresora->ReturnList("tipoArticulo = 'impresora'");
+            $idImpresora = $idImpresora->ReturnList("tipoArticulo like 'impresora%'");
             if(isset($idImpresora[0]) && $idImpresora[0] != null){
                 $idImpresora = $idImpresora[0]->idTipoArticulo;
                 $listA = $articulos->ReturnList("idTipoArticulo = {$idImpresora}");//obteniendo lista de tipo de impresoras 

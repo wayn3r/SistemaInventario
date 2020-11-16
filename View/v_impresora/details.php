@@ -121,7 +121,7 @@ else{
                                     </div>
                                     <div class="form-group">
                                         <label for="direccionIp">Dirección IP:</label>
-                                        <input required type="text" value="{$row->direccionIp}" placeholder="Escribe dirección IP" name="direccionIp" id="direccionIp" class="form-control">
+                                        <input type="text" value="{$row->direccionIp}" placeholder="Escribe dirección IP" name="direccionIp" id="direccionIp" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label for="fechaCompra">Fecha de compra:</label>
@@ -206,7 +206,7 @@ else{
             </div>
             <div class="form-group">
                 <label for="direccionIp">Dirección IP:</label>
-                <input required type="text" placeholder="Escribe dirección IP" name="direccionIp" id="direccionIp" class="form-control">
+                <input type="text" placeholder="Escribe dirección IP" name="direccionIp" id="direccionIp" class="form-control">
             </div>
             <div class="form-group">
                 <label for="fechaCompra">Fecha de compra:</label>

@@ -4,5 +4,5 @@
     define('USER','azure');
     define('PASS','6#vWHD_$');
     define('NAME','sistema_inventario_db');
-    define('PORT',50331);
+    define('PORT',55655);
 ?>

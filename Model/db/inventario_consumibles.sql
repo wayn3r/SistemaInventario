@@ -1,3 +1,5 @@
+CREATE DATABASE sistema_inventario_db;
+USE sistema_inventario_db;
 -- phpMyAdmin SQL Dump
 -- version 4.9.1
 -- https://www.phpmyadmin.net/
@@ -964,7 +966,7 @@ ALTER TABLE `acceso`
 ALTER TABLE `articulo`
   ADD PRIMARY KEY (`idArticulo`),
   ADD KEY `fk_tipoarticulo_articulo_idx` (`idTipoArticulo`),
-  ADD KEY `fk_marcaarticulo_articulo_idx` (`idMarca`);
+  ADD KEY `fk_marcaarticulo_articulo_idx` (`idMarca`),
   ADD UNIQUE KEY `modelo_UNIQUE` (`modelo`);
 
 --

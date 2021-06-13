@@ -1,5 +1,5 @@
-CREATE DATABASE sistema_inventario_db;
-USE sistema_inventario_db;
+-- CREATE DATABASE sistema_inventario_db;
+-- USE sistema_inventario_db;
 -- phpMyAdmin SQL Dump
 -- version 4.9.1
 -- https://www.phpmyadmin.net/
@@ -27,8 +27,9 @@ SET time_zone = "+00:00";
 DELIMITER $$
 --
 -- Procedimientos
---
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_cambiar_estado` (IN `_estado` VARCHAR(45), IN `_idEntrega` INT, IN `_idArticulo` INT, IN `_cantidad` INT)  BEGIN
+
+DROP PROCEDURE IF EXISTS `proc_cambiar_estado`;
+CREATE PROCEDURE `proc_cambiar_estado` (IN `_estado` VARCHAR(45), IN `_idEntrega` INT, IN `_idArticulo` INT, IN `_cantidad` INT)  BEGIN
 	declare _idEstado int;
     declare _uso int;
 	set _idEstado = (select e.idEstado from estado e where e.estado = _estado limit 1);
@@ -46,7 +47,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_cambiar_estado` (IN `_estado` 
     SET SQL_SAFE_UPDATES=1;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_crear_detalle` (IN `idEntrega` INT, IN `idArt` INT, IN `cantidad` INT)  BEGIN
+DROP PROCEDURE IF EXISTS `proc_crear_detalle`;
+CREATE PROCEDURE `proc_crear_detalle` (IN `idEntrega` INT, IN `idArt` INT, IN `cantidad` INT)  BEGIN
 insert into existencia_entrega 
 	select idEntrega, idExistencia from existencia e 
 	join estado ed on e.idEstado = ed.idEstado 
@@ -55,7 +57,8 @@ insert into existencia_entrega
 call proc_cambiar_estado('en uso',idEntrega, idArt, cantidad);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_crear_historico` ()  BEGIN
+DROP PROCEDURE IF EXISTS `proc_crear_historico`;
+CREATE PROCEDURE `proc_crear_historico` ()  BEGIN
 	declare idFecha int;
 	insert into historico_fecha values(null,now());
     set idFecha = last_insert_id();
@@ -67,7 +70,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_crear_historico` ()  BEGIN
     end if;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_crear_notificar` (IN `id` INT)  BEGIN
+DROP PROCEDURE IF EXISTS `proc_crear_notificar`;
+CREATE PROCEDURE `proc_crear_notificar` (IN `id` INT)  BEGIN
 	-- declarar todas las variables a utilizar  
     declare stock int;
     declare total int;
@@ -90,7 +94,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_crear_notificar` (IN `id` INT)
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_eliminar_detalle` (IN `idEnt` INT, IN `idArt` INT, IN `cantidad` INT)  BEGIN
+DROP PROCEDURE IF EXISTS `proc_eliminar_detalle`;
+CREATE PROCEDURE `proc_eliminar_detalle` (IN `idEnt` INT, IN `idArt` INT, IN `cantidad` INT)  BEGIN
 call proc_cambiar_estado('activo',idEnt, idArt, cantidad);
 delete from existencia_entrega where idEntrega = idEnt and 
 idExistencia in(
@@ -106,7 +111,7 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `acceso`
 --
 
-CREATE TABLE `acceso` (
+CREATE TABLE IF NOT EXISTS `acceso` (
   `idAcceso` int(11) NOT NULL,
   `controlador` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `pagina` varchar(50) COLLATE utf8_spanish_ci NOT NULL
@@ -143,7 +148,7 @@ INSERT INTO `acceso` (`idAcceso`, `controlador`, `pagina`) VALUES
 -- Estructura de tabla para la tabla `articulo`
 --
 
-CREATE TABLE `articulo` (
+CREATE TABLE IF NOT EXISTS `articulo` (
   `idArticulo` int(11) NOT NULL,
   `idTipoArticulo` int(11) NOT NULL,
   `idMarca` int(11) NOT NULL,
@@ -154,6 +159,8 @@ CREATE TABLE `articulo` (
 -- Disparadores `articulo`
 --
 DELIMITER $$
+
+DROP TRIGGER IF EXISTS `tr_eliminar_articulo`;
 CREATE TRIGGER `tr_eliminar_articulo` BEFORE DELETE ON `articulo` FOR EACH ROW begin
 	delete from existencia where idArticulo = old.idArticulo;
 end
@@ -166,7 +173,7 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `categoria`
 --
 
-CREATE TABLE `categoria` (
+CREATE TABLE IF NOT EXISTS `categoria` (
   `idCategoria` int(11) NOT NULL,
   `categoria` varchar(50) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -175,6 +182,8 @@ CREATE TABLE `categoria` (
 -- Disparadores `categoria`
 --
 DELIMITER $$
+
+DROP TRIGGER IF EXISTS `tr_eliminar_categoria`;
 CREATE TRIGGER `tr_eliminar_categoria` BEFORE DELETE ON `categoria` FOR EACH ROW begin
 	delete from tipoarticulo where idCategoria = old.idCategoria;
 end
@@ -187,7 +196,7 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `correo`
 --
 
-CREATE TABLE `correo` (
+CREATE TABLE IF NOT EXISTS `correo` (
   `idCorreo` int(11) NOT NULL,
   `correo` varchar(100) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -198,7 +207,7 @@ CREATE TABLE `correo` (
 -- Estructura de tabla para la tabla `departamento`
 --
 
-CREATE TABLE `departamento` (
+CREATE TABLE IF NOT EXISTS `departamento` (
   `idDepartamento` int(11) NOT NULL,
   `departamento` varchar(100) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -216,7 +225,7 @@ INSERT INTO `departamento` (`idDepartamento`, `departamento`) VALUES
 -- Estructura de tabla para la tabla `empleado`
 --
 
-CREATE TABLE `empleado` (
+CREATE TABLE IF NOT EXISTS `empleado` (
   `idEmpleado` int(11) NOT NULL,
   `codigoEmpleado` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
@@ -233,7 +242,7 @@ CREATE TABLE `empleado` (
 -- Estructura de tabla para la tabla `entrega`
 --
 
-CREATE TABLE `entrega` (
+CREATE TABLE IF NOT EXISTS `entrega` (
   `idEntrega` int(11) NOT NULL,
   `idPerfil` int(11) NOT NULL,
   `idEmpleado` int(11) NOT NULL,
@@ -245,6 +254,8 @@ CREATE TABLE `entrega` (
 -- Disparadores `entrega`
 --
 DELIMITER $$
+
+DROP TRIGGER IF EXISTS `tr_eliminar_entrega`;
 CREATE TRIGGER `tr_eliminar_entrega` BEFORE DELETE ON `entrega` FOR EACH ROW begin
 	declare _idEstado int;
     set _idEstado = (select e.idEstado from estado e where e.estado = 'activo' limit 1);    
@@ -264,7 +275,7 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `estado`
 --
 
-CREATE TABLE `estado` (
+CREATE TABLE IF NOT EXISTS `estado` (
   `idEstado` int(11) NOT NULL,
   `estado` varchar(45) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -284,7 +295,7 @@ INSERT INTO `estado` (`idEstado`, `estado`) VALUES
 -- Estructura de tabla para la tabla `existencia`
 --
 
-CREATE TABLE `existencia` (
+CREATE TABLE IF NOT EXISTS `existencia` (
   `idExistencia` bigint(20) NOT NULL,
   `idArticulo` int(11) NOT NULL,
   `idEstado` int(11) NOT NULL,
@@ -296,12 +307,16 @@ CREATE TABLE `existencia` (
 -- Disparadores `existencia`
 --
 DELIMITER $$
+
+DROP TRIGGER IF EXISTS `tr_eliminar_existencia`;
 CREATE TRIGGER `tr_eliminar_existencia` BEFORE DELETE ON `existencia` FOR EACH ROW begin
 	call proc_crear_notificar (old.idArticulo);
 end
 $$
 DELIMITER ;
 DELIMITER $$
+
+DROP TRIGGER IF EXISTS `tr_modificar_existencia`;
 CREATE TRIGGER `tr_modificar_existencia` AFTER UPDATE ON `existencia` FOR EACH ROW begin
 	if(new.idEstado != old.idEstado) then
 		call proc_crear_notificar(new.idArticulo);
@@ -316,7 +331,7 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `existencia_entrega`
 --
 
-CREATE TABLE `existencia_entrega` (
+CREATE TABLE IF NOT EXISTS `existencia_entrega` (
   `idEntrega` int(11) NOT NULL,
   `idExistencia` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -327,7 +342,7 @@ CREATE TABLE `existencia_entrega` (
 -- Estructura de tabla para la tabla `historico_articulo`
 --
 
-CREATE TABLE `historico_articulo` (
+CREATE TABLE IF NOT EXISTS `historico_articulo` (
   `idHistorico` bigint(20) NOT NULL,
   `idFecha` int(11) NOT NULL,
   `fechaInventario` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
@@ -350,7 +365,7 @@ CREATE TABLE `historico_articulo` (
 -- Estructura de tabla para la tabla `historico_fecha`
 --
 
-CREATE TABLE `historico_fecha` (
+CREATE TABLE IF NOT EXISTS `historico_fecha` (
   `idFecha` int(11) NOT NULL,
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -362,7 +377,7 @@ CREATE TABLE `historico_fecha` (
 -- Estructura de tabla para la tabla `historico_impresora`
 --
 
-CREATE TABLE `historico_impresora` (
+CREATE TABLE IF NOT EXISTS `historico_impresora` (
   `idHistorico` bigint(20) NOT NULL,
   `idFecha` int(11) NOT NULL,
   `idImpresora` int(11) NOT NULL,
@@ -386,7 +401,7 @@ CREATE TABLE `historico_impresora` (
 -- Estructura de tabla para la tabla `impresora`
 --
 
-CREATE TABLE `impresora` (
+CREATE TABLE IF NOT EXISTS `impresora` (
   `idImpresora` int(11) NOT NULL,
   `idArticulo` int(11) DEFAULT NULL,
   `idEstado` int(11) DEFAULT NULL,
@@ -400,6 +415,8 @@ CREATE TABLE `impresora` (
 -- Disparadores `impresora`
 --
 DELIMITER $$
+
+DROP TRIGGER IF EXISTS `tr_eliminar_impresora`;
 CREATE TRIGGER `tr_eliminar_impresora` AFTER DELETE ON `impresora` FOR EACH ROW begin
 	call proc_crear_notificar (old.idArticulo);
 end
@@ -412,7 +429,7 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `localidad`
 --
 
-CREATE TABLE `localidad` (
+CREATE TABLE IF NOT EXISTS `localidad` (
   `idLocalidad` int(11) NOT NULL,
   `localidad` varchar(100) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -431,7 +448,7 @@ INSERT INTO `localidad` (`idLocalidad`, `localidad`) VALUES
 -- Estructura de tabla para la tabla `marcaarticulo`
 --
 
-CREATE TABLE `marcaarticulo` (
+CREATE TABLE IF NOT EXISTS `marcaarticulo` (
   `idMarca` int(11) NOT NULL,
   `marca` varchar(100) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -447,6 +464,8 @@ INSERT INTO `marcaarticulo` (`idMarca`, `marca`) VALUES
 -- Disparadores `marcaarticulo`
 --
 DELIMITER $$
+
+DROP TRIGGER IF EXISTS `tr_eliminar_marca`;
 CREATE TRIGGER `tr_eliminar_marca` BEFORE DELETE ON `marcaarticulo` FOR EACH ROW begin
 	declare id int;
      set id = (select min(idMarca) from marcaarticulo where marca = 'Generico');
@@ -461,7 +480,7 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `notificacion`
 --
 
-CREATE TABLE `notificacion` (
+CREATE TABLE IF NOT EXISTS `notificacion` (
   `idNotificacion` int(11) NOT NULL,
   `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `tipoArticulo` varchar(50) COLLATE utf8_spanish_ci DEFAULT NULL,
@@ -475,7 +494,7 @@ CREATE TABLE `notificacion` (
 -- Estructura de tabla para la tabla `perfil`
 --
 
-CREATE TABLE `perfil` (
+CREATE TABLE IF NOT EXISTS `perfil` (
   `idPerfil` int(11) NOT NULL,
   `nombre` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `apellido` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
@@ -499,7 +518,7 @@ INSERT INTO `perfil` (`idPerfil`, `nombre`, `apellido`, `correo`, `fechaCreacion
 --
 
 
-CREATE TABLE `rol` (
+CREATE TABLE IF NOT EXISTS `rol` (
   `idRol` int(11) NOT NULL,
   `rol` varchar(50) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -518,6 +537,8 @@ INSERT INTO `rol` (`idRol`, `rol`) VALUES
 -- Disparadores `rol`
 --
 DELIMITER $$
+
+DROP TRIGGER IF EXISTS `tr_eliminar_rol`;
 CREATE TRIGGER `tr_eliminar_rol` BEFORE DELETE ON `rol` FOR EACH ROW begin
 	delete from rol_acceso where idRol = old.idRol;
 end
@@ -530,7 +551,7 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `rol_acceso`
 --
 
-CREATE TABLE `rol_acceso` (
+CREATE TABLE IF NOT EXISTS `rol_acceso` (
   `idRol` int(11) NOT NULL,
   `idAcceso` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -568,7 +589,7 @@ INSERT INTO `rol_acceso` (`idRol`, `idAcceso`) VALUES
 -- Estructura de tabla para la tabla `tipoarticulo`
 --
 
-CREATE TABLE `tipoarticulo` (
+CREATE TABLE IF NOT EXISTS `tipoarticulo` (
   `idTipoArticulo` int(11) NOT NULL,
   `tipoArticulo` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `idCategoria` int(11) NOT NULL
@@ -578,6 +599,8 @@ CREATE TABLE `tipoarticulo` (
 -- Disparadores `tipoarticulo`
 --
 DELIMITER $$
+
+DROP TRIGGER IF EXISTS `tr_eliminar_tipoarticulo`;
 CREATE TRIGGER `tr_eliminar_tipoarticulo` BEFORE DELETE ON `tipoarticulo` FOR EACH ROW begin
 	delete from articulo where idTipoArticulo = old.idTipoArticulo;
 end
@@ -590,7 +613,7 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `toner_impresora`
 --
 
-CREATE TABLE `toner_impresora` (
+CREATE TABLE IF NOT EXISTS `toner_impresora` (
   `idToner` int(11) NOT NULL,
   `idImpresora` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -601,7 +624,7 @@ CREATE TABLE `toner_impresora` (
 -- Estructura de tabla para la tabla `usuario`
 --
 
-CREATE TABLE `usuario` (
+CREATE TABLE IF NOT EXISTS `usuario` (
   `idUsuario` int(11) NOT NULL,
   `user` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `pass` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
@@ -621,7 +644,7 @@ INSERT INTO `usuario` (`idUsuario`, `user`, `pass`, `idPerfil`, `idRol`) VALUES
 -- Estructura Stand-in para la vista `vw_accesos`
 -- (Véase abajo para la vista actual)
 --
-CREATE TABLE `vw_accesos` (
+CREATE TABLE IF NOT EXISTS `vw_accesos` (
 `idRol` int(11)
 ,`rol` varchar(50)
 ,`idAcceso` int(11)
@@ -635,7 +658,7 @@ CREATE TABLE `vw_accesos` (
 -- Estructura Stand-in para la vista `vw_articulos`
 -- (Véase abajo para la vista actual)
 --
-CREATE TABLE `vw_articulos` (
+CREATE TABLE IF NOT EXISTS `vw_articulos` (
 `fechaInventario` varchar(10)
 ,`fechaCompra` varchar(10)
 ,`idCategoria` int(11)
@@ -656,7 +679,7 @@ CREATE TABLE `vw_articulos` (
 -- Estructura Stand-in para la vista `vw_categorias`
 -- (Véase abajo para la vista actual)
 --
-CREATE TABLE `vw_categorias` (
+CREATE TABLE IF NOT EXISTS `vw_categorias` (
 `idCategoria` int(11)
 ,`categoria` varchar(50)
 ,`idTipoArticulo` int(11)
@@ -669,7 +692,7 @@ CREATE TABLE `vw_categorias` (
 -- Estructura Stand-in para la vista `vw_detalles_entregas`
 -- (Véase abajo para la vista actual)
 --
-CREATE TABLE `vw_detalles_entregas` (
+CREATE TABLE IF NOT EXISTS `vw_detalles_entregas` (
 `idEntrega` int(11)
 ,`idExistencia` bigint(20)
 ,`idTipoArticulo` int(11)
@@ -685,7 +708,7 @@ CREATE TABLE `vw_detalles_entregas` (
 -- Estructura Stand-in para la vista `vw_empleados`
 -- (Véase abajo para la vista actual)
 --
-CREATE TABLE `vw_empleados` (
+CREATE TABLE IF NOT EXISTS `vw_empleados` (
 `idEmpleado` int(11)
 ,`codigoEmpleado` varchar(50)
 ,`nombre` varchar(50)
@@ -703,7 +726,7 @@ CREATE TABLE `vw_empleados` (
 -- Estructura Stand-in para la vista `vw_entregas`
 -- (Véase abajo para la vista actual)
 --
-CREATE TABLE `vw_entregas` (
+CREATE TABLE IF NOT EXISTS `vw_entregas` (
 `idEntrega` int(11)
 ,`recibidoPor` varchar(101)
 ,`idPerfil` int(11)
@@ -724,7 +747,7 @@ CREATE TABLE `vw_entregas` (
 -- Estructura Stand-in para la vista `vw_existencias`
 -- (Véase abajo para la vista actual)
 --
-CREATE TABLE `vw_existencias` (
+CREATE TABLE IF NOT EXISTS `vw_existencias` (
 `idExistencia` bigint(20)
 ,`idEstado` int(11)
 ,`estado` varchar(45)
@@ -744,7 +767,7 @@ CREATE TABLE `vw_existencias` (
 -- Estructura Stand-in para la vista `vw_impresoras`
 -- (Véase abajo para la vista actual)
 --
-CREATE TABLE `vw_impresoras` (
+CREATE TABLE IF NOT EXISTS `vw_impresoras` (
 `idImpresora` int(11)
 ,`serialNumber` varchar(100)
 ,`direccionIp` varchar(45)
@@ -766,7 +789,7 @@ CREATE TABLE `vw_impresoras` (
 -- Estructura Stand-in para la vista `vw_marcas`
 -- (Véase abajo para la vista actual)
 --
-CREATE TABLE `vw_marcas` (
+CREATE TABLE IF NOT EXISTS `vw_marcas` (
 `idTipoArticulo` int(11)
 ,`tipoArticulo` varchar(50)
 ,`idArticulo` int(11)
@@ -783,7 +806,7 @@ CREATE TABLE `vw_marcas` (
 -- Estructura Stand-in para la vista `vw_reportes`
 -- (Véase abajo para la vista actual)
 --
-CREATE TABLE `vw_reportes` (
+CREATE TABLE IF NOT EXISTS `vw_reportes` (
 `filtro` varchar(8)
 ,`data` varchar(151)
 ,`fecha` date
@@ -796,7 +819,7 @@ CREATE TABLE `vw_reportes` (
 -- Estructura Stand-in para la vista `vw_tipoarticulos`
 -- (Véase abajo para la vista actual)
 --
-CREATE TABLE `vw_tipoarticulos` (
+CREATE TABLE IF NOT EXISTS `vw_tipoarticulos` (
 `idTipoArticulo` int(11)
 ,`tipoArticulo` varchar(50)
 ,`idCategoria` int(11)
@@ -809,7 +832,7 @@ CREATE TABLE `vw_tipoarticulos` (
 -- Estructura Stand-in para la vista `vw_toner_impresora`
 -- (Véase abajo para la vista actual)
 --
-CREATE TABLE `vw_toner_impresora` (
+CREATE TABLE IF NOT EXISTS `vw_toner_impresora` (
 `idToner` int(11)
 ,`idImpresora` int(11)
 ,`idTipoArticulo` int(11)
@@ -823,7 +846,7 @@ CREATE TABLE `vw_toner_impresora` (
 -- Estructura Stand-in para la vista `vw_usuarios`
 -- (Véase abajo para la vista actual)
 --
-CREATE TABLE `vw_usuarios` (
+CREATE TABLE IF NOT EXISTS `vw_usuarios` (
 `idUsuario` int(11)
 ,`user` varchar(100)
 ,`idPerfil` int(11)
@@ -840,7 +863,7 @@ CREATE TABLE `vw_usuarios` (
 --
 DROP TABLE IF EXISTS `vw_accesos`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_accesos`  AS  select `r`.`idRol` AS `idRol`,`r`.`rol` AS `rol`,`a`.`idAcceso` AS `idAcceso`,`a`.`controlador` AS `controlador`,`a`.`pagina` AS `pagina` from ((`rol` `r` left join `rol_acceso` `ra` on(`r`.`idRol` = `ra`.`idRol`)) left join `acceso` `a` on(`ra`.`idAcceso` = `a`.`idAcceso`)) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_accesos`  AS  select `r`.`idRol` AS `idRol`,`r`.`rol` AS `rol`,`a`.`idAcceso` AS `idAcceso`,`a`.`controlador` AS `controlador`,`a`.`pagina` AS `pagina` from ((`rol` `r` left join `rol_acceso` `ra` on(`r`.`idRol` = `ra`.`idRol`)) left join `acceso` `a` on(`ra`.`idAcceso` = `a`.`idAcceso`)) ;
 
 -- --------------------------------------------------------
 
@@ -849,7 +872,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_articulos`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_articulos`  AS  select ifnull(ifnull(max(`e`.`fechaInventario`),max(`i`.`fechaInventario`)),'-') AS `fechaInventario`,ifnull(max(`e`.`fechaCompra`),ifnull(max(`i`.`fechaCompra`),'-')) AS `fechaCompra`,`c`.`idCategoria` AS `idCategoria`,`c`.`categoria` AS `categoria`,`ta`.`idTipoArticulo` AS `idTipoArticulo`,`ta`.`tipoArticulo` AS `tipoArticulo`,`a`.`idArticulo` AS `idArticulo`,`a`.`modelo` AS `modelo`,`ma`.`idMarca` AS `idMarca`,`ma`.`marca` AS `marca`,count(`e`.`idExistencia`) + ifnull(count(`i`.`idImpresora`),0) AS `cantidadContada`,ifnull(`stock`.`cantidadStock`,0) + ifnull(`stockimpresora`.`cantidadStock`,0) AS `cantidadStock` from (((((((`articulo` `a` left join `existencia` `e` on(`a`.`idArticulo` = `e`.`idArticulo`)) join `tipoarticulo` `ta` on(`a`.`idTipoArticulo` = `ta`.`idTipoArticulo`)) join `marcaarticulo` `ma` on(`ma`.`idMarca` = `a`.`idMarca`)) join `categoria` `c` on(`ta`.`idCategoria` = `c`.`idCategoria`)) left join (select `e`.`idArticulo` AS `idArticulo`,count(`e`.`idExistencia`) AS `cantidadStock` from (`existencia` `e` join `estado` `ed` on(`e`.`idEstado` = `ed`.`idEstado`)) where `ed`.`estado` = 'activo' group by `e`.`idArticulo`) `stock` on(`e`.`idArticulo` = `stock`.`idArticulo`)) left join `impresora` `i` on(`a`.`idArticulo` = `i`.`idArticulo`)) left join (select `i`.`idArticulo` AS `idArticulo`,`i`.`fechaCompra` AS `fechaCompra`,count(`i`.`idImpresora`) AS `cantidadStock` from (`impresora` `i` join `estado` `ed` on(`i`.`idEstado` = `ed`.`idEstado`)) where `ed`.`estado` = 'activo' group by `i`.`idArticulo`) `stockimpresora` on(`a`.`idArticulo` = `stockimpresora`.`idArticulo`)) group by `a`.`idArticulo` ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_articulos`  AS  select ifnull(ifnull(max(`e`.`fechaInventario`),max(`i`.`fechaInventario`)),'-') AS `fechaInventario`,ifnull(max(`e`.`fechaCompra`),ifnull(max(`i`.`fechaCompra`),'-')) AS `fechaCompra`,`c`.`idCategoria` AS `idCategoria`,`c`.`categoria` AS `categoria`,`ta`.`idTipoArticulo` AS `idTipoArticulo`,`ta`.`tipoArticulo` AS `tipoArticulo`,`a`.`idArticulo` AS `idArticulo`,`a`.`modelo` AS `modelo`,`ma`.`idMarca` AS `idMarca`,`ma`.`marca` AS `marca`,count(`e`.`idExistencia`) + ifnull(count(`i`.`idImpresora`),0) AS `cantidadContada`,ifnull(`stock`.`cantidadStock`,0) + ifnull(`stockimpresora`.`cantidadStock`,0) AS `cantidadStock` from (((((((`articulo` `a` left join `existencia` `e` on(`a`.`idArticulo` = `e`.`idArticulo`)) join `tipoarticulo` `ta` on(`a`.`idTipoArticulo` = `ta`.`idTipoArticulo`)) join `marcaarticulo` `ma` on(`ma`.`idMarca` = `a`.`idMarca`)) join `categoria` `c` on(`ta`.`idCategoria` = `c`.`idCategoria`)) left join (select `e`.`idArticulo` AS `idArticulo`,count(`e`.`idExistencia`) AS `cantidadStock` from (`existencia` `e` join `estado` `ed` on(`e`.`idEstado` = `ed`.`idEstado`)) where `ed`.`estado` = 'activo' group by `e`.`idArticulo`) `stock` on(`e`.`idArticulo` = `stock`.`idArticulo`)) left join `impresora` `i` on(`a`.`idArticulo` = `i`.`idArticulo`)) left join (select `i`.`idArticulo` AS `idArticulo`,`i`.`fechaCompra` AS `fechaCompra`,count(`i`.`idImpresora`) AS `cantidadStock` from (`impresora` `i` join `estado` `ed` on(`i`.`idEstado` = `ed`.`idEstado`)) where `ed`.`estado` = 'activo' group by `i`.`idArticulo`) `stockimpresora` on(`a`.`idArticulo` = `stockimpresora`.`idArticulo`)) group by `a`.`idArticulo` ;
 
 -- --------------------------------------------------------
 
@@ -858,7 +881,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_categorias`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_categorias`  AS  select `c`.`idCategoria` AS `idCategoria`,`c`.`categoria` AS `categoria`,`ta`.`idTipoArticulo` AS `idTipoArticulo`,`ta`.`tipoArticulo` AS `tipoArticulo` from (`categoria` `c` left join `tipoarticulo` `ta` on(`c`.`idCategoria` = `ta`.`idCategoria`)) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_categorias`  AS  select `c`.`idCategoria` AS `idCategoria`,`c`.`categoria` AS `categoria`,`ta`.`idTipoArticulo` AS `idTipoArticulo`,`ta`.`tipoArticulo` AS `tipoArticulo` from (`categoria` `c` left join `tipoarticulo` `ta` on(`c`.`idCategoria` = `ta`.`idCategoria`)) ;
 
 -- --------------------------------------------------------
 
@@ -867,7 +890,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_detalles_entregas`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_detalles_entregas`  AS  select `ee`.`idEntrega` AS `idEntrega`,`ee`.`idExistencia` AS `idExistencia`,`e`.`idTipoArticulo` AS `idTipoArticulo`,`e`.`tipoArticulo` AS `tipoArticulo`,`e`.`idArticulo` AS `idArticulo`,`e`.`modelo` AS `modelo`,count(`e`.`modelo`) AS `cantidad` from (`existencia_entrega` `ee` join `vw_existencias` `e` on(`ee`.`idExistencia` = `e`.`idExistencia`)) group by `ee`.`idEntrega`,`e`.`modelo` ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_detalles_entregas`  AS  select `ee`.`idEntrega` AS `idEntrega`,`ee`.`idExistencia` AS `idExistencia`,`e`.`idTipoArticulo` AS `idTipoArticulo`,`e`.`tipoArticulo` AS `tipoArticulo`,`e`.`idArticulo` AS `idArticulo`,`e`.`modelo` AS `modelo`,count(`e`.`modelo`) AS `cantidad` from (`existencia_entrega` `ee` join `vw_existencias` `e` on(`ee`.`idExistencia` = `e`.`idExistencia`)) group by `ee`.`idEntrega`,`e`.`modelo` ;
 
 -- --------------------------------------------------------
 
@@ -876,7 +899,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_empleados`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_empleados`  AS  select `e`.`idEmpleado` AS `idEmpleado`,`e`.`codigoEmpleado` AS `codigoEmpleado`,`e`.`nombre` AS `nombre`,`e`.`apellido` AS `apellido`,`e`.`correo` AS `correo`,`e`.`fechaEntrada` AS `fechaEntrada`,`e`.`idDepartamento` AS `idDepartamento`,`e`.`activo` AS `activo`,`d`.`departamento` AS `departamento` from (`empleado` `e` join `departamento` `d` on(`e`.`idDepartamento` = `d`.`idDepartamento`)) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_empleados`  AS  select `e`.`idEmpleado` AS `idEmpleado`,`e`.`codigoEmpleado` AS `codigoEmpleado`,`e`.`nombre` AS `nombre`,`e`.`apellido` AS `apellido`,`e`.`correo` AS `correo`,`e`.`fechaEntrada` AS `fechaEntrada`,`e`.`idDepartamento` AS `idDepartamento`,`e`.`activo` AS `activo`,`d`.`departamento` AS `departamento` from (`empleado` `e` join `departamento` `d` on(`e`.`idDepartamento` = `d`.`idDepartamento`)) ;
 
 -- --------------------------------------------------------
 
@@ -885,7 +908,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_entregas`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_entregas`  AS  select `de`.`idEntrega` AS `idEntrega`,concat(`epd`.`nombre`,' ',`epd`.`apellido`) AS `recibidoPor`,`p`.`idPerfil` AS `idPerfil`,concat(`p`.`nombre`,' ',`p`.`apellido`) AS `entregadoPor`,`l`.`localidad` AS `localidad`,`d`.`idDepartamento` AS `idDepartamento`,`d`.`departamento` AS `departamento`,`epd`.`idEmpleado` AS `idEmpleado`,`epd`.`codigoEmpleado` AS `codigoEmpleado`,`de`.`fechaEntrega` AS `fechaEntrega`,`de`.`terminado` AS `terminado`,ifnull(count(`ee`.`idExistencia`),0) AS `totalArticulos` from (((((`entrega` `de` join `perfil` `p` on(`de`.`idPerfil` = `p`.`idPerfil`)) join `localidad` `l` on(`p`.`idLocalidad` = `l`.`idLocalidad`)) join `empleado` `epd` on(`de`.`idEmpleado` = `epd`.`idEmpleado`)) join `departamento` `d` on(`epd`.`idDepartamento` = `d`.`idDepartamento`)) left join `existencia_entrega` `ee` on(`de`.`idEntrega` = `ee`.`idEntrega`)) group by `de`.`idEntrega` order by `de`.`fechaEntrega` desc,`de`.`idEntrega` desc ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_entregas`  AS  select `de`.`idEntrega` AS `idEntrega`,concat(`epd`.`nombre`,' ',`epd`.`apellido`) AS `recibidoPor`,`p`.`idPerfil` AS `idPerfil`,concat(`p`.`nombre`,' ',`p`.`apellido`) AS `entregadoPor`,`l`.`localidad` AS `localidad`,`d`.`idDepartamento` AS `idDepartamento`,`d`.`departamento` AS `departamento`,`epd`.`idEmpleado` AS `idEmpleado`,`epd`.`codigoEmpleado` AS `codigoEmpleado`,`de`.`fechaEntrega` AS `fechaEntrega`,`de`.`terminado` AS `terminado`,ifnull(count(`ee`.`idExistencia`),0) AS `totalArticulos` from (((((`entrega` `de` join `perfil` `p` on(`de`.`idPerfil` = `p`.`idPerfil`)) join `localidad` `l` on(`p`.`idLocalidad` = `l`.`idLocalidad`)) join `empleado` `epd` on(`de`.`idEmpleado` = `epd`.`idEmpleado`)) join `departamento` `d` on(`epd`.`idDepartamento` = `d`.`idDepartamento`)) left join `existencia_entrega` `ee` on(`de`.`idEntrega` = `ee`.`idEntrega`)) group by `de`.`idEntrega` order by `de`.`fechaEntrega` desc,`de`.`idEntrega` desc ;
 
 -- --------------------------------------------------------
 
@@ -894,7 +917,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_existencias`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_existencias`  AS  select `e`.`idExistencia` AS `idExistencia`,`e`.`idEstado` AS `idEstado`,`ed`.`estado` AS `estado`,ifnull(`e`.`fechaInventario`,'-') AS `fechaInventario`,ifnull(`e`.`fechaCompra`,'-') AS `fechaCompra`,`a`.`idArticulo` AS `idArticulo`,`a`.`modelo` AS `modelo`,`ma`.`idMarca` AS `idMarca`,`ma`.`marca` AS `marca`,`ta`.`idTipoArticulo` AS `idTipoArticulo`,`ta`.`tipoArticulo` AS `tipoArticulo` from ((((`existencia` `e` join `estado` `ed` on(`e`.`idEstado` = `ed`.`idEstado`)) join `articulo` `a` on(`e`.`idArticulo` = `a`.`idArticulo`)) join `tipoarticulo` `ta` on(`a`.`idTipoArticulo` = `ta`.`idTipoArticulo`)) join `marcaarticulo` `ma` on(`a`.`idMarca` = `ma`.`idMarca`)) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_existencias`  AS  select `e`.`idExistencia` AS `idExistencia`,`e`.`idEstado` AS `idEstado`,`ed`.`estado` AS `estado`,ifnull(`e`.`fechaInventario`,'-') AS `fechaInventario`,ifnull(`e`.`fechaCompra`,'-') AS `fechaCompra`,`a`.`idArticulo` AS `idArticulo`,`a`.`modelo` AS `modelo`,`ma`.`idMarca` AS `idMarca`,`ma`.`marca` AS `marca`,`ta`.`idTipoArticulo` AS `idTipoArticulo`,`ta`.`tipoArticulo` AS `tipoArticulo` from ((((`existencia` `e` join `estado` `ed` on(`e`.`idEstado` = `ed`.`idEstado`)) join `articulo` `a` on(`e`.`idArticulo` = `a`.`idArticulo`)) join `tipoarticulo` `ta` on(`a`.`idTipoArticulo` = `ta`.`idTipoArticulo`)) join `marcaarticulo` `ma` on(`a`.`idMarca` = `ma`.`idMarca`)) ;
 
 -- --------------------------------------------------------
 
@@ -903,7 +926,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_impresoras`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_impresoras`  AS  select `i`.`idImpresora` AS `idImpresora`,`i`.`serialNumber` AS `serialNumber`,`i`.`direccionIp` AS `direccionIp`,`i`.`fechaInventario` AS `fechaInventario`,ifnull(`i`.`fechaCompra`,'-') AS `fechaCompra`,`i`.`idEstado` AS `idEstado`,`e`.`estado` AS `estado`,`i`.`idArticulo` AS `idArticulo`,`a`.`modelo` AS `modelo`,`a`.`idTipoArticulo` AS `idTipoArticulo`,`ta`.`tipoArticulo` AS `tipoArticulo`,`a`.`idMarca` AS `idMarca`,`ma`.`marca` AS `marca` from ((((`impresora` `i` join `estado` `e` on(`i`.`idEstado` = `e`.`idEstado`)) join `articulo` `a` on(`i`.`idArticulo` = `a`.`idArticulo`)) join `tipoarticulo` `ta` on(`a`.`idTipoArticulo` = `ta`.`idTipoArticulo`)) join `marcaarticulo` `ma` on(`ma`.`idMarca` = `a`.`idMarca`)) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_impresoras`  AS  select `i`.`idImpresora` AS `idImpresora`,`i`.`serialNumber` AS `serialNumber`,`i`.`direccionIp` AS `direccionIp`,`i`.`fechaInventario` AS `fechaInventario`,ifnull(`i`.`fechaCompra`,'-') AS `fechaCompra`,`i`.`idEstado` AS `idEstado`,`e`.`estado` AS `estado`,`i`.`idArticulo` AS `idArticulo`,`a`.`modelo` AS `modelo`,`a`.`idTipoArticulo` AS `idTipoArticulo`,`ta`.`tipoArticulo` AS `tipoArticulo`,`a`.`idMarca` AS `idMarca`,`ma`.`marca` AS `marca` from ((((`impresora` `i` join `estado` `e` on(`i`.`idEstado` = `e`.`idEstado`)) join `articulo` `a` on(`i`.`idArticulo` = `a`.`idArticulo`)) join `tipoarticulo` `ta` on(`a`.`idTipoArticulo` = `ta`.`idTipoArticulo`)) join `marcaarticulo` `ma` on(`ma`.`idMarca` = `a`.`idMarca`)) ;
 
 -- --------------------------------------------------------
 
@@ -912,7 +935,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_marcas`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_marcas`  AS  select `ta`.`idTipoArticulo` AS `idTipoArticulo`,`ta`.`tipoArticulo` AS `tipoArticulo`,`a`.`idArticulo` AS `idArticulo`,`a`.`modelo` AS `modelo`,`ma`.`idMarca` AS `idMarca`,`ma`.`marca` AS `marca`,`c`.`idCategoria` AS `idCategoria`,`c`.`categoria` AS `categoria` from (((`marcaarticulo` `ma` left join `articulo` `a` on(`ma`.`idMarca` = `a`.`idMarca`)) left join `tipoarticulo` `ta` on(`a`.`idTipoArticulo` = `ta`.`idTipoArticulo`)) left join `categoria` `c` on(`ta`.`idCategoria` = `c`.`idCategoria`)) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_marcas`  AS  select `ta`.`idTipoArticulo` AS `idTipoArticulo`,`ta`.`tipoArticulo` AS `tipoArticulo`,`a`.`idArticulo` AS `idArticulo`,`a`.`modelo` AS `modelo`,`ma`.`idMarca` AS `idMarca`,`ma`.`marca` AS `marca`,`c`.`idCategoria` AS `idCategoria`,`c`.`categoria` AS `categoria` from (((`marcaarticulo` `ma` left join `articulo` `a` on(`ma`.`idMarca` = `a`.`idMarca`)) left join `tipoarticulo` `ta` on(`a`.`idTipoArticulo` = `ta`.`idTipoArticulo`)) left join `categoria` `c` on(`ta`.`idCategoria` = `c`.`idCategoria`)) ;
 
 -- --------------------------------------------------------
 
@@ -921,7 +944,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_reportes`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_reportes`  AS  select 'articulo' AS `filtro`,concat(`ta`.`tipoArticulo`,' ',`a`.`modelo`) AS `data`,`e`.`fechaInventario` AS `fecha`,sum(`e`.`inventario`) AS `cantidad` from ((`articulo` `a` join `tipoarticulo` `ta` on(`a`.`idTipoArticulo` = `ta`.`idTipoArticulo`)) join (select `existencia`.`idArticulo` AS `idArticulo`,`existencia`.`fechaInventario` AS `fechaInventario`,count(`existencia`.`idArticulo`) AS `inventario` from `existencia` group by `existencia`.`fechaInventario`) `e` on(`a`.`idArticulo` = `e`.`idArticulo`)) group by `e`.`fechaInventario`,`a`.`idArticulo` union select 'entrega' AS `filtro`,`d`.`departamento` AS `departamento`,`e`.`fechaEntrega` AS `mes`,count(`e`.`idEntrega`) AS `entrega` from ((`departamento` `d` join `empleado` `epd` on(`d`.`idDepartamento` = `epd`.`idDepartamento`)) join `entrega` `e` on(`epd`.`idEmpleado` = `e`.`idEmpleado`)) group by `e`.`fechaEntrega`,`d`.`idDepartamento` ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_reportes`  AS  select 'articulo' AS `filtro`,concat(`ta`.`tipoArticulo`,' ',`a`.`modelo`) AS `data`,`e`.`fechaInventario` AS `fecha`,sum(`e`.`inventario`) AS `cantidad` from ((`articulo` `a` join `tipoarticulo` `ta` on(`a`.`idTipoArticulo` = `ta`.`idTipoArticulo`)) join (select `existencia`.`idArticulo` AS `idArticulo`,`existencia`.`fechaInventario` AS `fechaInventario`,count(`existencia`.`idArticulo`) AS `inventario` from `existencia` group by `existencia`.`fechaInventario`) `e` on(`a`.`idArticulo` = `e`.`idArticulo`)) group by `e`.`fechaInventario`,`a`.`idArticulo` union select 'entrega' AS `filtro`,`d`.`departamento` AS `departamento`,`e`.`fechaEntrega` AS `mes`,count(`e`.`idEntrega`) AS `entrega` from ((`departamento` `d` join `empleado` `epd` on(`d`.`idDepartamento` = `epd`.`idDepartamento`)) join `entrega` `e` on(`epd`.`idEmpleado` = `e`.`idEmpleado`)) group by `e`.`fechaEntrega`,`d`.`idDepartamento` ;
 
 -- --------------------------------------------------------
 
@@ -930,7 +953,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_tipoarticulos`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_tipoarticulos`  AS  select `ta`.`idTipoArticulo` AS `idTipoArticulo`,`ta`.`tipoArticulo` AS `tipoArticulo`,`c`.`idCategoria` AS `idCategoria`,`c`.`categoria` AS `categoria` from (`tipoarticulo` `ta` join `categoria` `c` on(`ta`.`idCategoria` = `c`.`idCategoria`)) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_tipoarticulos`  AS  select `ta`.`idTipoArticulo` AS `idTipoArticulo`,`ta`.`tipoArticulo` AS `tipoArticulo`,`c`.`idCategoria` AS `idCategoria`,`c`.`categoria` AS `categoria` from (`tipoarticulo` `ta` join `categoria` `c` on(`ta`.`idCategoria` = `c`.`idCategoria`)) ;
 
 -- --------------------------------------------------------
 
@@ -939,7 +962,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_toner_impresora`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_toner_impresora`  AS  select `a`.`idArticulo` AS `idToner`,`ti`.`idImpresora` AS `idImpresora`,`a`.`idTipoArticulo` AS `idTipoArticulo`,`a`.`idMarca` AS `idMarca`,`a`.`modelo` AS `modelo` from ((`articulo` `a` left join `toner_impresora` `ti` on(`ti`.`idToner` = `a`.`idArticulo`)) join `tipoarticulo` `ta` on(`a`.`idTipoArticulo` = `ta`.`idTipoArticulo`)) where `ta`.`tipoArticulo` = 'toner' ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_toner_impresora`  AS  select `a`.`idArticulo` AS `idToner`,`ti`.`idImpresora` AS `idImpresora`,`a`.`idTipoArticulo` AS `idTipoArticulo`,`a`.`idMarca` AS `idMarca`,`a`.`modelo` AS `modelo` from ((`articulo` `a` left join `toner_impresora` `ti` on(`ti`.`idToner` = `a`.`idArticulo`)) join `tipoarticulo` `ta` on(`a`.`idTipoArticulo` = `ta`.`idTipoArticulo`)) where `ta`.`tipoArticulo` = 'toner' ;
 
 -- --------------------------------------------------------
 
@@ -948,7 +971,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_usuarios`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_usuarios`  AS  select `u`.`idUsuario` AS `idUsuario`,`u`.`user` AS `user`,`u`.`idPerfil` AS `idPerfil`,concat(`p`.`nombre`,' ',`p`.`apellido`) AS `nombreCompleto`,`u`.`idRol` AS `idRol`,`r`.`rol` AS `rol`,`p`.`fechaCreacion` AS `fechaCreacion` from ((`usuario` `u` join `perfil` `p` on(`u`.`idPerfil` = `p`.`idPerfil`)) join `rol` `r` on(`u`.`idRol` = `r`.`idRol`)) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_usuarios`  AS  select `u`.`idUsuario` AS `idUsuario`,`u`.`user` AS `user`,`u`.`idPerfil` AS `idPerfil`,concat(`p`.`nombre`,' ',`p`.`apellido`) AS `nombreCompleto`,`u`.`idRol` AS `idRol`,`r`.`rol` AS `rol`,`p`.`fechaCreacion` AS `fechaCreacion` from ((`usuario` `u` join `perfil` `p` on(`u`.`idPerfil` = `p`.`idPerfil`)) join `rol` `r` on(`u`.`idRol` = `r`.`idRol`)) ;
 
 --
 -- Índices para tablas volcadas
